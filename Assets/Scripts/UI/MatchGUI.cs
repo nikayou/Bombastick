@@ -24,7 +24,7 @@ public class MatchGUI : MonoBehaviour {
 
   void PlayerHUD (int id = 1) {
     GameObject player = GameObject.Find("Player"+id);
-    float time = player.GetComponent<PlayerController>().GetPickTime();
+    float time = player.GetComponent<PlayerController>().GetScore();
     time = (Mathf.Round (time * 10f) / 10f);
     // TODO: do not recalculate everything for each player
     string str = ""+time;

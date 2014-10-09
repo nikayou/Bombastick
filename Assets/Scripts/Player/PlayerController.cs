@@ -22,13 +22,6 @@ public class PlayerController : MonoBehaviour {
     dropBombScript = GetComponent<DropBomb>();
   }
 
-  void Update () {
-    // TODO: players should not handle their own score
-    if (isOwner) {
-      AddScore (Time.deltaTime);
-    }
-  }
-	
   public int GetID () {
     return playerID;
   }
@@ -61,6 +54,10 @@ public class PlayerController : MonoBehaviour {
     dropBombScript.enabled = true;
   }
 
+  public bool IsOwner () {
+    return isOwner;
+  } 
+
   public float AddScore (float amount) {
     return (score += amount);
   }
@@ -68,5 +65,9 @@ public class PlayerController : MonoBehaviour {
   public float GetScore () {
     return score;
   } 
+
+  public float SetScore (float value) {
+    return (score = value);
+  }
 
 }

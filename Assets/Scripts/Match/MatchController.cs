@@ -1,6 +1,51 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+
+[RequireComponent (typeof(EndMatch))]
 
 public class MatchController : MonoBehaviour {
+  
+  protected List<PlayerController> players;
+
+  protected virtual void Start () {
+    players = new List<PlayerController>();
+    foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player")) {
+      players.Add(p.GetComponent<PlayerController>());
+    }    
+  }
+
+  /*
+   * Add to the player with the given index, the given amount of score
+   */
+  void AddScore (int index, float amount) {
+    players[index].AddScore(amount);
+  }
+
+  protected virtual void End () {
+    EndMatch endMatch = GetComponent<EndMatch>();
+    endMatch.enabled = true;
+    endMatch.SetWinner (GetWinner());
+    Destroy(this);
+  }
+
+  int GetWinner () {
+    int winner = 0;
+    bool draw = true;
+    foreach (PlayerController pc in players) {
+      if (pc.GetScore() > players[winner].GetScore() ) {
+	draw = false;
+	winner = pc.GetID();
+      } else if (pc.GetScore() == players[winner].GetScore() ) {
+	  draw = true;
+      }
+    }
+    if (draw) {
+      return 0;
+    } else {
+      return winner;
+    }
+    
+  }
 
 }

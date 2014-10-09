@@ -3,21 +3,30 @@ using System.Collections;
 
 public class LastManMatch : MatchController {
 
-       public float time = 180f; 
-       public bool keepLast = true;
-       private float timer;
+  public float time = 180f; 
+  private float timer;
 
-       void Awake () {
-         timer = time;
-       }
+  void Awake () {
+    timer = time;
+  }
 
-       void Update () {
-         timer -= Time.deltaTime;
-	 if (timer <= 0f) {
-	    GetComponent<EndMatch>().enabled = true;
-	    Destroy(this);
-	 }
-       }
+  void Update () {
+    AddScoreToOwner ();
+    timer -= Time.deltaTime;
+    if (timer <= 0f) {
+      End();
+    }
+  }
+
+  void AddScoreToOwner () {
+    foreach (PlayerController pc in players) {
+      if (pc.IsOwner () ) {
+	pc.SetScore(1);
+      } else {
+	pc.SetScore(0);
+      }
+    }
+  }
 
 }
 
