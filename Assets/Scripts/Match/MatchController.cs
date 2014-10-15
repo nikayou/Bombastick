@@ -32,12 +32,17 @@ public class MatchController : MonoBehaviour {
   int GetWinner () {
     int winner = 0;
     bool draw = true;
+    bool madeOne = false;
     foreach (PlayerController pc in players) {
-      if (pc.GetScore() > players[winner].GetScore() ) {
+      float winnerScore = players[winner-1].GetScore();
+      if (pc.GetScore() > winnerScore ) {
 	draw = false;
 	winner = pc.GetID();
-      } else if (pc.GetScore() == players[winner].GetScore() ) {
-	  draw = true;
+      } else if (madeOne && pc.GetScore() == winnerScore ) {
+	draw = true;
+      }
+      if (!madeOne) {
+	madeOne = true;
       }
     }
     if (draw) {
