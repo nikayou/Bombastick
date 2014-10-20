@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+/*
   public class Border : MonoBehaviour {
 
     public int dimension = 32;
@@ -82,3 +82,4 @@ using System.Collections;
     }
 
   }
+*/
