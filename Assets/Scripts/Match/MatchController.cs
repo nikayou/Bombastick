@@ -22,6 +22,12 @@ public class MatchController : MonoBehaviour {
     players[index].AddScore(amount);
   }
 
+  public void ResetScore (float value = 0f) {
+    foreach (PlayerController pc in players) {
+      pc.SetScore(value);
+    }
+  }
+
   protected virtual void End () {
     EndMatch endMatch = GetComponent<EndMatch>();
     endMatch.enabled = true;
@@ -30,10 +36,11 @@ public class MatchController : MonoBehaviour {
   }
 
   int GetWinner () {
-    int winner = 0;
+    int winner = 1;
     bool draw = true;
     bool madeOne = false;
     foreach (PlayerController pc in players) {
+      Debug.Log("winner: "+winner+"/"+players.Count);
       float winnerScore = players[winner-1].GetScore();
       if (pc.GetScore() > winnerScore ) {
 	draw = false;

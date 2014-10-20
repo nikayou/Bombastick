@@ -3,6 +3,7 @@ using System.Collections;
 
 public class TimedMatch : MatchController {
 
+// TODO: unify names (time or duration)
   public float time = 180f; 
   private float timer;
 
@@ -27,5 +28,10 @@ public class TimedMatch : MatchController {
     }
   }
 
+  public void Reset (float t) {
+    time = t;
+    timer = t;
+    ResetScore (0f);
+  }
 
 }

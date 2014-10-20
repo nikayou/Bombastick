@@ -28,5 +28,11 @@ public class LastManMatch : MatchController {
     }
   }
 
+  public void Reset (float t) {
+    time = t;
+    timer = t;
+    ResetScore(0f);
+  }
+
 }
 

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class DeathMatch : MatchController {
 
-  public float time = 15f; 
+  public float time = 180f; 
   private float timer;
 
   void Awake () {
@@ -16,6 +16,12 @@ public class DeathMatch : MatchController {
     if (timer <= 0f) {
       End ();
     } 
+  }
+
+  public void Reset (float t) {
+   time = t;
+   timer = t;
+   ResetScore(0f);
   }
 
 }

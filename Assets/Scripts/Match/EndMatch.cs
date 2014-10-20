@@ -14,7 +14,6 @@ public class EndMatch : MatchController {
     } else {
       msg = "Player "+winner+" wins!";
     }
-    Debug.Log(msg);
     GUI.Box (GUIUtils.CenteredNormal(0, 0, w, h), msg);
   }
 

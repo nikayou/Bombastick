@@ -23,4 +23,9 @@ public class TargetMatch : MatchController {
     }
   }
 
+  public void Reset (float t) {
+    targetTime = t;
+    ResetScore (t);
+  }
+
 }
