@@ -86,13 +86,13 @@ public class MatchMenu : Menu {
   }
 
   void SubTitle (string subtitle) {
-    GUI.Label (GUIUtils.CenteredNormal(.5f, .3f, .3f, .1f), subtitle, skin.label);
+    GUI.Label (GUIUtils.CenteredNormal(.5f, subTitleY, .3f, .1f), subtitle, skin.label);
   }
 
   void DurationGUI () {
     float roundedDuration = Mathf.Round(duration);
     string msg = "Duration : "+roundedDuration;
-    GUI.Label (GUIUtils.CenteredNormal(.5f, subTitleY, .3f, .1f), msg, skin.label);
+    GUI.Label (GUIUtils.CenteredNormal(.5f, .65f, .3f, .1f), msg, skin.label);
   }
 
   void LaunchMatch () {
