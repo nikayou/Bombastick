@@ -93,6 +93,7 @@ public class MatchMenu : Menu {
     float roundedDuration = Mathf.Round(duration);
     string msg = "Duration : "+roundedDuration;
     GUI.Label (GUIUtils.CenteredNormal(.5f, .65f, .3f, .1f), msg, skin.label);
+    duration = GUI.HorizontalSlider(GUIUtils.CenteredNormal(.5f, .65f, .4f, .1f), duration, 30f, 300f);
   }
 
   void LaunchMatch () {
