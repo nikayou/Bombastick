@@ -6,7 +6,7 @@ public class MatchMenu : Menu {
   private MenuManager myManager;
   private MatchType matchType = MatchType.TIMED;
   private float duration = 90.0f;
-  private float subTitleY = .5f;
+  private float subTitleY = .35f;
   private MatchOptions matchOptions;
 
   void Awake () {
@@ -92,7 +92,7 @@ public class MatchMenu : Menu {
   void DurationGUI () {
     float roundedDuration = Mathf.Round(duration);
     string msg = "Duration : "+roundedDuration;
-    GUI.Label (GUIUtils.CenteredNormal(.5f, .65f, .3f, .1f), msg, skin.label);
+    GUI.Label (GUIUtils.CenteredNormal(.5f, .5f, .3f, .1f), msg, skin.label);
     duration = GUI.HorizontalSlider(GUIUtils.CenteredNormal(.5f, .65f, .4f, .1f), duration, 30f, 300f);
   }
 
