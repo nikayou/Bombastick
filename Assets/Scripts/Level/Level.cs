@@ -8,7 +8,7 @@ public class Level : MonoBehaviour {
   public GameObject tilePrefab;
 
   void Awake () {
-    tileset = new Tileset("Levels/a.png");
+    tileset = new Tileset("a.png");
     SpriteRenderer sr = (SpriteRenderer)this.renderer;
     sr.sprite = Sprite.Create(tileset.GetTexture(), tileset.GetDimensionRect(), 
     new Vector2(0,0), tileset.GetTileSize() );
