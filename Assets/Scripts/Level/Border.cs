@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class Border : MonoBehaviour {
-
+/*
   public int dimension = 16;
   public GameObject borderPrefab;
   private Transform borderContainer;
@@ -38,5 +38,6 @@ public class Border : MonoBehaviour {
     tile.transform.position = new Vector3(x, y, 0);
     tile.transform.parent = borderContainer;
   }
+*/
 
 }

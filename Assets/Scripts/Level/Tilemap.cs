@@ -1,37 +1,38 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-			public enum Tile {
-			  EMPTY = 0,
-			  DESTRUCT,
-			  BLOCK,
-			  NB
-			}
+public class Tilemap {
 
-public class Tilemap : MonoBehaviour {
+  private int [] layers;
+  private int width;
+  private int height; //TODO: check if required to keep it
+  private int nbPerLayer;
 
-public int dimension = 32;
-			 public int minBlocks = 100;
-						   public int maxBlocks = 600;
-									     public GameObject blockPrefab;
-													  public GameObject borderPrefab;													  private Tile [,] map;
-																																      private Transform borderContainer;
-																																				       private Transform blocksContainer;
-private int limit;
-
-  void Awake () {
-    map = new Tile [dimension, dimension];
-limit = dimension - 1;
-    borderContainer = transform.Find("Border");
-    blocksContainer = transform.Find("Blocks");
+  public Tilemap (int _width, int _height, int nbLayers = 2) {
+    width = _width;
+    height = _height;
+    nbPerLayer = width * height;
+    layers = new int [nbLayers * nbPerLayer];
   }
 
-  void Start () {
-    CreateBounds();
-    CreateRandom();
-    PlaceTiles();
+  public int Get (int x, int y, int layerIndex = 0) {
+    return layers[(layerIndex * nbPerLayer) + CoordinatesToIndex(x,y)];
   }
 
+  public int GetWidth () {
+    return width;
+  }
+
+  public int GetHeight () {
+    return height;
+  }
+
+  int CoordinatesToIndex (int x, int y) {
+    return (y * width + x);
+  }
+
+
+  /*
   void CreateBounds () {
     for (int i = 0; i < dimension; i++) {
       map[0, i] = Tile.BLOCK;
@@ -39,8 +40,8 @@ limit = dimension - 1;
       map[i, 0] = Tile.BLOCK;
       map[i, limit] = Tile.BLOCK;
     }
-  }
-
+    }
+  
   void CreateRandom () {
     int nb = Random.Range(minBlocks, maxBlocks+1);
     for (int i = 0; i < nb; i++) {
@@ -87,7 +88,7 @@ limit = dimension - 1;
 	     || (x >= dimension-4 && y >= dimension-4) 
 	     // last is for the object
 	     || (x == dimension/2 && y == dimension/2)
-);
+	     );
   }
-
+  */
 }
