@@ -1,15 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 
 public class Tileset {
 
   private Texture2D texture; // image read from disk
-  private Tile [] tiles;
+  private Dictionary <int, Tile> tiles;
   private int tileSize;
 
   public Tileset (string path) {
+    tiles = new Dictionary<int, Tile>();
     tileSize = 64;
     texture = new Texture2D(1,1);
     LoadFromXML (path);
@@ -57,7 +59,8 @@ public class Tileset {
 	if ((_blocking = xtr.GetAttribute("blocking")) != null) {
 	  blocking = bool.Parse(_blocking);
 	}
-	Tile tile = new Tile (int.Parse(tileIndex), blocking, destructable);
+	Tile tile = new Tile (blocking, destructable);
+	tiles.Add (int.Parse(tileIndex), tile);
       }
     }
     xtr.Close();
@@ -72,13 +75,15 @@ public class Tileset {
 
   void LoadTexture (string path) {
     // "download" the file from disk
-    Debug.Log("loading texture "+path);
     WWW www = new WWW(("file://" + path));
     // Wait until its loaded : blockings
     // yield return www;
-    Debug.Log("file: "+path+" -> "+www.url);
     // Set the texture
     www.LoadImageIntoTexture(texture);
+  }
+
+  public Tile GetTile (int index) {
+    return tiles[index];
   }
 
 }

@@ -3,19 +3,12 @@ using System.Collections;
 
 public class Tile {
 
-  private int index;
   private bool blocking;
   private bool destructable;
 
-  public Tile (int _index, bool _blocking = false, bool _destructable = false) {
-    index = _index;
+  public Tile (bool _blocking = false, bool _destructable = false) {
     blocking = _blocking;
     destructable = _destructable;
-    Debug.Log("created tile : "+this.ToString());
-  }
-
-  public int GetIndex () {
-    return index;
   }
 
   public static Tile FromXML (string s) {
@@ -31,8 +24,8 @@ public class Tile {
     return output;
   }
 
-  public string ToString () {
-    string output = ("Tile "+index+" : ");
+  override public string ToString () {
+    string output = ("Tile : ");
     if (!destructable) {
       output += "non-";
     }
