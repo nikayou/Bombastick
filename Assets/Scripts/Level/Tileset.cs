@@ -44,7 +44,20 @@ public class Tileset {
 	  LoadTexture (imgPath);
 	}
       } else if (xtr.Name == "TILE") { 
-	//TODO: extract tile
+        string _destructable, _blocking;
+	bool destructable = false, blocking = false;
+	string tileIndex = string.Empty;
+	if ((tileIndex = xtr.GetAttribute("index")) == null) {
+	  // TODO: extraction error
+	  continue;
+	}
+	if ((_destructable = xtr.GetAttribute("destructable")) != null) {
+	  destructable = bool.Parse(_destructable);
+	}
+	if ((_blocking = xtr.GetAttribute("blocking")) != null) {
+	  blocking = bool.Parse(_blocking);
+	}
+	Tile tile = new Tile (int.Parse(tileIndex), blocking, destructable);
       }
     }
     xtr.Close();
@@ -61,7 +74,7 @@ public class Tileset {
     // "download" the file from disk
     Debug.Log("loading texture "+path);
     WWW www = new WWW(("file://" + path));
-    // Wait until its loaded : blocks
+    // Wait until its loaded : blockings
     // yield return www;
     Debug.Log("file: "+path+" -> "+www.url);
     // Set the texture

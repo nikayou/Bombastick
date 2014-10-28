@@ -3,18 +3,19 @@ using System.Collections;
 
 public class Tile {
 
-  private Sprite sprite;
-  private bool block;
-  private bool destruct;
+  private int index;
+  private bool blocking;
+  private bool destructable;
 
-  public Tile (Sprite _sprite, bool _block = false, bool _destruct = false) {
-    sprite = _sprite;
-    block = _block;
-    destruct = _destruct;
+  public Tile (int _index, bool _blocking = false, bool _destructable = false) {
+    index = _index;
+    blocking = _blocking;
+    destructable = _destructable;
+    Debug.Log("created tile : "+this.ToString());
   }
 
-  public Sprite GetSprite () {
-    return sprite;
+  public int GetIndex () {
+    return index;
   }
 
   public static Tile FromXML (string s) {
@@ -24,9 +25,22 @@ public class Tile {
 
   public static string ToXML (Tile t) {
     string output = "<tile ";
-    output += ("destruct=\"" + t.destruct +"\" ");
-    output += ("block=\"" + t.block + "\" ");
+    output += ("destructable=\"" + t.destructable +"\" ");
+    output += ("blocking=\"" + t.blocking + "\" ");
     output += "> \n";
+    return output;
+  }
+
+  public string ToString () {
+    string output = ("Tile "+index+" : ");
+    if (!destructable) {
+      output += "non-";
+    }
+    output += "destructable / ";
+    if (!blocking) {
+      output += "non-";
+    }
+    output += "blocking.";
     return output;
   }
 
