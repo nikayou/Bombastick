@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TILESET tilesize="64" image="a.png">
+  <TILE index="0" />
+</TILESET>

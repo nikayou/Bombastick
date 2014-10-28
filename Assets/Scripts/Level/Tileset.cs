@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.IO;
+using System.Xml;
 
 public class Tileset {
 
@@ -9,9 +10,9 @@ public class Tileset {
   private int tileSize;
 
   public Tileset (string path) {
-    LoadFromXML (path);
-    LoadTexture (path);
     tileSize = 64;
+    texture = new Texture2D(1,1);
+    LoadFromXML (path);
   }
 
   public Tile Get (int index) {
@@ -31,7 +32,22 @@ public class Tileset {
   }
 
   public void LoadFromXML (string path) {
-    // TODO
+    XmlTextReader xtr = new XmlTextReader (path);    
+    while (xtr.Read()) { 
+      if (xtr.Name == "TILESET") {
+	string tileSizeStr = string.Empty;
+	if ((tileSizeStr = xtr.GetAttribute("tilesize")) != null) {
+	  tileSize = int.Parse(tileSizeStr);
+	}
+	string imgPath = string.Empty;
+	if ((imgPath = xtr.GetAttribute("image")) != null) {
+	  LoadTexture (imgPath);
+	}
+      } else if (xtr.Name == "TILE") { 
+	//TODO: extract tile
+      }
+    }
+    xtr.Close();
   }
 
   public Rect GetDimensionRect () {
@@ -43,7 +59,8 @@ public class Tileset {
 
   void LoadTexture (string path) {
     // "download" the file from disk
-    WWW www = new WWW("file://" + path);                  
+    Debug.Log("loading texture "+path);
+    WWW www = new WWW(("file://" + path));
     // Wait until its loaded : blocks
     // yield return www;
     Debug.Log("file: "+path+" -> "+www.url);
