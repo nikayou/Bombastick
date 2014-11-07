@@ -9,13 +9,25 @@ public class Tileset {
   private Texture2D texture; // image read from disk
   private Dictionary <int, Tile> tiles;
   private int tileSize;
+  private int width;
+  private int height;
 
   public Tileset (string path) {
     tiles = new Dictionary<int, Tile>();
     tileSize = 64;
+    width = 4;
+    height = 4;
     texture = new Texture2D(1,1);
     LoadFromXML (path);
-    CreateTiles ();
+    //CreateTiles ();
+  }
+
+  public int GetWidth () {
+    return width;
+  }
+
+  public int GetHeight () {
+    return height;
   }
 
   public Tile Get (int index) {
@@ -36,6 +48,7 @@ public class Tileset {
 
   public void LoadFromXML (string path) {
     // TODO: check errors with asserts
+    // TODO: compute width and height
     XmlTextReader xtr = new XmlTextReader (path);    
     while (xtr.Read()) { 
       if (xtr.Name == "TILESET") {
