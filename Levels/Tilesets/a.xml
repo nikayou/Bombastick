@@ -4,4 +4,6 @@
   <TILE index="1" destructable="true"/>
   <TILE index="2" blocking="false"/>
   <TILE index="3" destructable="true" blocking="true"/>
+  <TILE index="4" destructable="true" blocking="true"/>
+  <TILE index="5" destructable="true" blocking="true"/>
 </TILESET>

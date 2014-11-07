@@ -11,6 +11,11 @@ public class Tile {
     destructable = _destructable;
   }
 
+  public void SetSprite (Sprite s) {
+    //SpriteRenderer sr = (SpriteRenderer)this.renderer;
+    //sr.sprite = s;
+  }
+
   public static Tile FromXML (string s) {
     // TODO
     return null;

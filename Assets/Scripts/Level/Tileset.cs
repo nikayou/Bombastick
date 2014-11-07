@@ -15,6 +15,7 @@ public class Tileset {
     tileSize = 64;
     texture = new Texture2D(1,1);
     LoadFromXML (path);
+    CreateTiles ();
   }
 
   public Tile Get (int index) {
@@ -65,6 +66,14 @@ public class Tileset {
       }
     }
     xtr.Close();
+  }
+
+  void CreateTiles () {
+    /*    
+    foreach (Tile t in tiles.Values) {
+      Rect subRect = new Rect(tileSize*i, tileSize*j, tileSize, tileSize);       
+      t.SetSprite(Sprite.Create(tileset.GetTexture(), subRect, new Vector2(0,0), tileset.GetTileSize() )
+      }*/
   }
 
   public Rect GetDimensionRect () {
