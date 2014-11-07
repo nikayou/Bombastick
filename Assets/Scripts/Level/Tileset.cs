@@ -34,6 +34,7 @@ public class Tileset {
   }
 
   public void LoadFromXML (string path) {
+    // TODO: check errors with asserts
     XmlTextReader xtr = new XmlTextReader (path);    
     while (xtr.Read()) { 
       if (xtr.Name == "TILESET") {
