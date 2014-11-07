@@ -61,7 +61,7 @@ public class Level : MonoBehaviour {
     int x = (tileIndex % w) * size;
     // TODO: the second parameter could be the top, or the bottom
     int y = (h*size)-((tileIndex-1) / h) * size;
-    Rect subRect = new Rect(x, y, size, size);
+    Rect subRect = new Rect(x, y, size-1, size-1);
     // creating the object
     GameObject go = Instantiate (tilePrefab) as GameObject;
     // assigning sub-sprite
