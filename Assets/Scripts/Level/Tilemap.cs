@@ -30,8 +30,9 @@ public class Tilemap
 		{
 				XmlTextReader xtr = new XmlTextReader (path);
 				int layerIndex = 0;
+				bool mapFound = false;
 				while (xtr.Read()) {
-						if (xtr.Name == "MAP") {
+						if (!mapFound && xtr.Name == "MAP") {
 								string widthString = string.Empty;
 								if ((widthString = xtr.GetAttribute ("width")) != null) {
 										width = int.Parse (widthString);
@@ -46,20 +47,21 @@ public class Tilemap
 								}
 								nbPerLayer = width * height;
 								layers = new int [nbLayers * nbPerLayer];
+								mapFound = true;
 						} 
-						if (xtr.Name == "LAYER") {
+						if (mapFound && xtr.Name == "LAYER") {
 								xtr.Read ();
 								string layerStr = xtr.ReadContentAsString ().Replace (System.Environment.NewLine, "").Trim ();
-								int size = layerStr.Length;
-								for (int i = 0; i < size; i++) {
-										if (layerStr [i] != ' ') {
-												Debug.Log ("putting " + layerStr [i]);
-												layers [(layerIndex * nbPerLayer) + i] = layerStr [i];
-										}
+								string [] tilesStr = layerStr.Split ('-');
+								int size = tilesStr.Length;
+								for (int i = 0; i < size-1; i++) {
+					Debug.Log ("parsing "+i+" : "+tilesStr[i]);
+					layers [(layerIndex * nbPerLayer) + i] = int.Parse (tilesStr [i]);
 								}
 								layerIndex++;
 						}
 				}
+
 		}
 
 		public void Put (int id, int x, int y, int layerIndex = 0)
@@ -75,6 +77,9 @@ public class Tilemap
 				// Assert (x < width);
 				// Assert (y < height);
 				// Assert (layerIndex < nbLayers);
+				int id = (layerIndex * nbPerLayer) + CoordinatesToIndex (x, y);
+				int res = layers [id];
+				//Debug.Log ("map("+x+","+y+","+layerIndex+") = "+id+" -> "+res);
 				return layers [(layerIndex * nbPerLayer) + CoordinatesToIndex (x, y)];
 		}
 

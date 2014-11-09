@@ -15,7 +15,6 @@ public class Level : MonoBehaviour
 				tileset = new Tileset (WWW.EscapeURL ("Levels/Tilesets/a.xml"));
 				size = tileset.GetTileSize ();
 				map = new Tilemap (WWW.EscapeURL ("Levels/level1.xml"));
-				//map = new Tilemap(16, 16, 1);
 				Create ();
 		}
 
@@ -38,12 +37,12 @@ public class Level : MonoBehaviour
 				layerObject.transform.parent = tilesObject;
 				layerObject.transform.position = halfVec;
 				layerObject.name = "Layer" + layer;
-				for (i = 0; i < w; i++) {
-						for (j = 0; j < h; j++) {
+				for (j = 0; j < h; j++) {
+						for (i = 0; i < w; i++) {
 								int tileIndex = map.Get (i, j, layer);
 								GameObject go = CreateTile (tileIndex);
 								go.transform.parent = layerObject.transform;
-								go.transform.localPosition = new Vector3 (i, j, 0);
+								go.transform.localPosition = new Vector3 (i, h - j, 0);
 								go.name = "Tile-" + i + "_" + j + "(" + tileIndex + ")";	
 						}
 				}
@@ -54,13 +53,14 @@ public class Level : MonoBehaviour
 				// retrieving the tile corresponding to the index
 				Tile tile = tileset.Get (tileIndex);
 				// computing subRectangle
+				Texture2D texture = tileset.GetTexture ();
 				int w = tileset.GetWidth ();
 				int h = tileset.GetHeight ();
 				int x = (tileIndex % w) * size;
 				// TODO: the second parameter could be the top, or the bottom
-				int y = (h * size) - ((tileIndex - 1) / h) * size;
-				Rect subRect = new Rect (x, y, size - 1, size - 1);
+				int y = texture.height - (tileIndex / w) * size - size;
 				// creating the object
+				Rect subRect = new Rect (x, y, size - 1, size - 1);
 				GameObject go = Instantiate (tilePrefab) as GameObject;
 				// assigning sub-sprite
 				//TODO : several tiles share the same sprite, no need to create it everytime
