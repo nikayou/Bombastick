@@ -36,8 +36,8 @@ public class Tileset
 
 		public Tile Get (int index)
 		{
-				Tile res = new Tile();
-				if ( ! tiles.TryGetValue (index, out res)) {
+				Tile res = new Tile ();
+				if (! tiles.TryGetValue (index, out res)) {
 						res = new Tile (true, false);
 						tiles.Add (index, res);
 				}

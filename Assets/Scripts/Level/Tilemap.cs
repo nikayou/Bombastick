@@ -55,8 +55,7 @@ public class Tilemap
 								string [] tilesStr = layerStr.Split ('-');
 								int size = tilesStr.Length;
 								for (int i = 0; i < size-1; i++) {
-					Debug.Log ("parsing "+i+" : "+tilesStr[i]);
-					layers [(layerIndex * nbPerLayer) + i] = int.Parse (tilesStr [i]);
+										layers [(layerIndex * nbPerLayer) + i] = int.Parse (tilesStr [i]);
 								}
 								layerIndex++;
 						}
