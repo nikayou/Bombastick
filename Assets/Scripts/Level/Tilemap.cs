@@ -29,6 +29,7 @@ public class Tilemap
 		void LoadFromXML (string path)
 		{
 				XmlTextReader xtr = new XmlTextReader (path);
+				int layerIndex = 0;
 				while (xtr.Read()) {
 						if (xtr.Name == "MAP") {
 								string widthString = string.Empty;
@@ -46,6 +47,18 @@ public class Tilemap
 								nbPerLayer = width * height;
 								layers = new int [nbLayers * nbPerLayer];
 						} 
+						if (xtr.Name == "LAYER") {
+								xtr.Read ();
+								string layerStr = xtr.ReadContentAsString ().Replace (System.Environment.NewLine, "").Trim ();
+								int size = layerStr.Length;
+								for (int i = 0; i < size; i++) {
+										if (layerStr [i] != ' ') {
+												Debug.Log ("putting " + layerStr [i]);
+												layers [(layerIndex * nbPerLayer) + i] = layerStr [i];
+										}
+								}
+								layerIndex++;
+						}
 				}
 		}
 
