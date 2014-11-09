@@ -12,9 +12,9 @@ public class Level : MonoBehaviour
 
 		void Awake ()
 		{
-				tileset = new Tileset (WWW.EscapeURL ("Levels/Tilesets/a.xml"));
+				tileset = new Tileset (WWW.EscapeURL ("Levels/Tilesets/classic.xml"));
 				size = tileset.GetTileSize ();
-				map = new Tilemap (WWW.EscapeURL ("Levels/level1.xml"));
+				map = new Tilemap (WWW.EscapeURL ("Levels/classic1.xml"));
 				Create ();
 		}
 
@@ -41,9 +41,11 @@ public class Level : MonoBehaviour
 						for (i = 0; i < w; i++) {
 								int tileIndex = map.Get (i, j, layer);
 								GameObject go = CreateTile (tileIndex);
-								go.transform.parent = layerObject.transform;
-								go.transform.localPosition = new Vector3 (i, h - j, 0);
-								go.name = "Tile-" + i + "_" + j + "(" + tileIndex + ")";	
+								if (go != null) {
+										go.transform.parent = layerObject.transform;
+										go.transform.localPosition = new Vector3 (i, h - j, 0);
+										go.name = "Tile-" + i + "_" + j + "(" + tileIndex + ")";	
+								}
 						}
 				}
 		}
@@ -52,6 +54,13 @@ public class Level : MonoBehaviour
 		{
 				// retrieving the tile corresponding to the index
 				Tile tile = tileset.Get (tileIndex);
+				// if in the map, the index is 0, we do not create
+				if (tileIndex == 0) {
+						return null;
+				} else {
+						// otherwise, we substract 1 (more convenient for operations)
+						tileIndex--;
+				}
 				// computing subRectangle
 				Texture2D texture = tileset.GetTexture ();
 				int w = tileset.GetWidth ();
