@@ -44,7 +44,8 @@ public class Level : MonoBehaviour
 								if (go != null) {
 										go.transform.parent = layerObject.transform;
 										go.transform.localPosition = new Vector3 (i, h - j, 0);
-										go.name = "Tile-" + i + "_" + j + "(" + tileIndex + ")";	
+										go.name = "Tile-" + i + "_" + j + "(" + tileIndex + ")";
+										go.renderer.sortingOrder = layer;
 								}
 						}
 				}
