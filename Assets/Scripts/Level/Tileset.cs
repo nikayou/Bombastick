@@ -120,6 +120,8 @@ public class Tileset
 				// yield return www;
 				// Set the texture
 				www.LoadImageIntoTexture (texture);
+				texture.wrapMode = TextureWrapMode.Clamp;
+				texture.filterMode = FilterMode.Point;
 		}
 
 		public Tile GetTile (int index)

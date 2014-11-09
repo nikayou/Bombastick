@@ -60,7 +60,7 @@ public class Level : MonoBehaviour
 				// TODO: the second parameter could be the top, or the bottom
 				int y = texture.height - (tileIndex / w) * size - size;
 				// creating the object
-				Rect subRect = new Rect (x, y, size - 1, size - 1);
+				Rect subRect = new Rect (x, y, size, size);
 				GameObject go = Instantiate (tilePrefab) as GameObject;
 				// assigning sub-sprite
 				//TODO : several tiles share the same sprite, no need to create it everytime
