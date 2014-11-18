@@ -21,6 +21,7 @@ public class MatchLauncher : MonoBehaviour {
     DontDestroyOnLoad(optionsHolder);
     matchOptions = optionsHolder.GetComponent<MatchOptions>();
     SetMatchType (matchOptions.mode);
+    LoadMap (matchOptions.mapPath);
     Destroy(matchOptions);
     Destroy(optionsHolder);
     Destroy(this);
@@ -48,7 +49,16 @@ public class MatchLauncher : MonoBehaviour {
     } else {
       gameController.GetComponent<DeathMatch>().Reset(matchOptions.duration);
     }
-     
   }	
+
+  void LoadMap (string name) {
+    Tilemap tilemap = new Tilemap (WWW.EscapeURL ("Levels/"+name));
+    Tileset tileset = new Tileset (WWW.EscapeURL ("Levels/Tilesets/"+tilemap.GetTileset()));
+    Level lvl = GetComponent<Level>();
+				   lvl.tileset = tileset;
+				   lvl.map = tilemap;
+				   lvl.Create();
+				   Destroy(lvl);
+  }
 	
 }

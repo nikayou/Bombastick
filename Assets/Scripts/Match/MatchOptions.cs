@@ -6,5 +6,6 @@ public class MatchOptions : MonoBehaviour {
 
        public float duration;
        public MatchType mode;
+       public string mapPath;
 
 }

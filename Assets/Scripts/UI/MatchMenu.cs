@@ -36,8 +36,10 @@ public class MatchMenu : Menu {
       matchType = (MatchType)(newMode);
     }
     // next & previous
-    if (GUI.Button (GUIUtils.CenteredNormal(.5f, .8f, .15f, .08f), "Play", skin.button)) {
-      LaunchMatch ();
+    if (GUI.Button (GUIUtils.CenteredNormal(.5f, .8f, .15f, .08f), "Next", skin.button)) {
+    matchOptions.duration = duration;
+    matchOptions.mode = matchType;
+      myManager.ChangeMenuState (MenuState.LEVEL);
     }
     if (GUI.Button (GUIUtils.CenteredNormal(.5f, .9f, .15f, .08f), "Back", skin.button)) {
       myManager.ChangeMenuState (MenuState.PLAYERS);
@@ -96,10 +98,6 @@ public class MatchMenu : Menu {
     duration = GUI.HorizontalSlider(GUIUtils.CenteredNormal(.5f, .65f, .4f, .1f), duration, 30f, 300f);
   }
 
-  void LaunchMatch () {
-    matchOptions.duration = duration;
-    matchOptions.mode = matchType;
-    Application.LoadLevel(1);
-  }
+ 
 
 }
