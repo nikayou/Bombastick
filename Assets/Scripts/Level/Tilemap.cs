@@ -87,7 +87,6 @@ public class Tilemap
     // Assert (layerIndex < nbLayers);
     int id = (layerIndex * nbPerLayer) + CoordinatesToIndex (x, y);
     int res = layers [id];
-    //Debug.Log ("map("+x+","+y+","+layerIndex+") = "+id+" -> "+res);
     return layers [(layerIndex * nbPerLayer) + CoordinatesToIndex (x, y)];
   }
 

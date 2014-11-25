@@ -11,10 +11,8 @@ public class MatchLauncher : MonoBehaviour {
     foreach (GameObject go in GameObject.FindGameObjectsWithTag("GameController")) {
       if (go.name == "GameController") {
 	gameController = go;
-	Debug.Log("found gamecontroller");
       } else {
 	optionsHolder = go;
-	Debug.Log("found options holder");
       }
 	
     }
@@ -52,9 +50,7 @@ public class MatchLauncher : MonoBehaviour {
   }	
 
   void LoadMap (string name) {
-    Debug.Log("loading map "+name);
     Tilemap tilemap = new Tilemap (WWW.EscapeURL ("Levels/"+name));
-    Debug.Log("loading tileset "+tilemap.GetTileset());
     Tileset tileset = new Tileset (WWW.EscapeURL ("Levels/Tilesets/"+tilemap.GetTileset()));
     Level lvl = GameObject.FindGameObjectWithTag("Level").GetComponent<Level>();
     lvl.tileset = tileset;
