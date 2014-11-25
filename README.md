@@ -8,8 +8,7 @@ yet :
 
 - 4 players : now, only 2 players are allowed
 - joysticks : each player has 5 inputs (directions + bomb)
-- level editor : now, maps are randomly generated. There is no guarantee that 
-players can reach each other or the flag.
+- level editor : maps can be loaded from XML (see Wiki) but the map editor is not provided (yet?)
 
 ## How to play 
 
