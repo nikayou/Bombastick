@@ -11,12 +11,16 @@ public class Level : MonoBehaviour
   private int size;
 
   public void Create ()
-  {    
+  {
     size = tileset.GetTileSize ();
     int stop = map.GetNbLayers ();
     for (int i = 0; i < stop; i++) {
       CreateFloor (i);
     }
+  }
+
+  public void Destroy () {
+    Destroy(this.gameObject);
   }
 
   void CreateFloor (int layer)

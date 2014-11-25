@@ -43,6 +43,7 @@ public class LevelMenu : Menu {
     
 
   void LaunchMatch () {
+    GameObject.FindGameObjectWithTag("GameController").GetComponent<MatchOptions>().mapPath = maps.ElementAt(index);
     Application.LoadLevel(1);
   }
 

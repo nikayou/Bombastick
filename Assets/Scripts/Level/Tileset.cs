@@ -63,6 +63,7 @@ public class Tileset
 		{
 				// TODO: check errors with asserts
 				// TODO: compute width and height
+				Debug.Log("loading tileset "+path);
 				XmlTextReader xtr = new XmlTextReader (path);    
 				while (xtr.Read()) { 
 						if (xtr.Name == "TILESET") {

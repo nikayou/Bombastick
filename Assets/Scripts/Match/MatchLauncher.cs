@@ -52,13 +52,15 @@ public class MatchLauncher : MonoBehaviour {
   }	
 
   void LoadMap (string name) {
+    Debug.Log("loading map "+name);
     Tilemap tilemap = new Tilemap (WWW.EscapeURL ("Levels/"+name));
+    Debug.Log("loading tileset "+tilemap.GetTileset());
     Tileset tileset = new Tileset (WWW.EscapeURL ("Levels/Tilesets/"+tilemap.GetTileset()));
-    Level lvl = GetComponent<Level>();
-				   lvl.tileset = tileset;
-				   lvl.map = tilemap;
-				   lvl.Create();
-				   Destroy(lvl);
+    Level lvl = GameObject.FindGameObjectWithTag("Level").GetComponent<Level>();
+    lvl.tileset = tileset;
+    lvl.map = tilemap;
+    lvl.Create();
+    Destroy(lvl);
   }
 	
 }
