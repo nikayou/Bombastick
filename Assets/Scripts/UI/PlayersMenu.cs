@@ -13,6 +13,7 @@ public class PlayersMenu : Menu {
   private Color [] colors;
   public Color [] defaultColors;
   private playerState[] status;
+  public GameObject [] playersAvatars;
 
   void Awake () {
     colors = new Color [4];
@@ -23,9 +24,20 @@ public class PlayersMenu : Menu {
   void Start () {
     for (int i = 0; i < 4; i++) {
       colors[i] = defaultColors[i];
-			status[i] = playerState.ABSENT;
+	  status[i] = playerState.ABSENT;
+	  ActivateCharacter(i, false);
+	  playersAvatars[i].SetActive(true);
     }
   }
+
+  void OnEnable () {
+		Debug.Log ("nable");
+		ShowCharacters (true);	
+  }
+
+  void OnDisable () {
+		ShowCharacters (false);
+	}
 
   void Update () {
 		if (Input.GetButtonDown ("Fire1")) {
@@ -58,6 +70,7 @@ public class PlayersMenu : Menu {
 		switch (status [i]) {
 		case playerState.ABSENT:
 			status[i] = playerState.JOINED;
+			ActivateCharacter(i, true);
 			break;
 		case playerState.JOINED:
 			status[i] = playerState.CONFIRMED;
@@ -75,6 +88,7 @@ void UpdatePlayerAfterBack (int i) {
 			break;
 		case playerState.JOINED:
 			status[i] = playerState.ABSENT;
+			ActivateCharacter(i, false);
 			break;
 		case playerState.CONFIRMED:
 			status[i] = playerState.JOINED;
@@ -82,6 +96,10 @@ void UpdatePlayerAfterBack (int i) {
 	}
   }
 
+ /*
+  * when a player has already validated his choice, pressing "Fire" will try to jump to the 
+  * next menu. It has to be done only if there isn't another player trying to choose. 
+  */
   void TryConfirm () {
 		int nbPlayers = 0;
 		foreach (playerState ps in status) {
@@ -92,6 +110,7 @@ void UpdatePlayerAfterBack (int i) {
 		}
 		if (nbPlayers >= 2) {
 			myManager.ChangeMenuState (MenuState.MATCH);
+			//ShowCharacters (false);
 		}
   }
 
@@ -102,32 +121,22 @@ void UpdatePlayerAfterBack (int i) {
 		}
 		// here, no player has joined
 		myManager.ChangeMenuState (MenuState.MAIN);
+		//ShowCharacters (false);
   }
 
-  void OnGUI () {
-    GUI.Label (GUIUtils.CenteredNormal(.5f, .1f, .4f, .1f), "Players settings", skin.label);
-    BoxFor (1, .25f, .25f);
-    BoxFor (2, .75f, .25f);
-    BoxFor (3, .25f, .75f);    
-    BoxFor (4, .75f, .75f);    
-    /*if (GUI.Button (GUIUtils.CenteredNormal(.5f, .45f, .15f, .08f), "Next", skin.button)) {
-      myManager.ChangeMenuState (MenuState.MATCH);
-      }
-    if (GUI.Button (GUIUtils.CenteredNormal(.5f, .55f, .15f, .08f), "Back", skin.button)) {
-	myManager.ChangeMenuState (MenuState.MAIN);
-      }*/
-      
-  }
-
-  void BoxFor (int j, float posX, float posY) {
-		int i = j - 1;
-		if (status [i] == playerState.ABSENT) {
-			// darker color when nothing to do
-			GUI.backgroundColor = GUIUtils.Darker(colors [i]);
-		} else {
-			GUI.backgroundColor = colors [i];
+  void ActivateCharacter (int i, bool active = true) {
+		playersAvatars [i].GetComponent<RandomRotation>().enabled = active;
+		Color c = colors [i];
+		if (!active) {
+			c = GUIUtils.Darker (c);
 		}
-    GUI.Box (GUIUtils.CenteredNormal(posX, posY, .5f, .5f), "Player"+j, skin.box);
+		playersAvatars [i].renderer.material.color = c;
+  }
+
+  void ShowCharacters (bool show) {
+		foreach (GameObject p in playersAvatars) {
+			p.SetActive(show);
+		}
   }
 
 }
