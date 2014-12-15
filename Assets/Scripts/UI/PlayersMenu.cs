@@ -6,7 +6,6 @@ public class PlayersMenu : Menu {
   enum playerState {
 		ABSENT,
 		JOINED,
-		SELECTED,
 		CONFIRMED
 	};
 
@@ -29,6 +28,45 @@ public class PlayersMenu : Menu {
   }
 
   void Update () {
+		if (Input.GetButtonDown ("Fire1")) {
+			UpdatePlayerAfterOK(0);
+		} 
+		if (Input.GetButtonDown ("Fire2")) {
+			UpdatePlayerAfterOK(1);
+		}
+		if (Input.GetButtonDown ("Fire3")) {
+			UpdatePlayerAfterOK(2);
+		}
+		if (Input.GetButtonDown ("Fire4")) {
+			UpdatePlayerAfterOK(3);
+		}
+  }
+
+  void UpdatePlayerAfterOK (int i) {
+		switch (status [i]) {
+		case playerState.ABSENT:
+			status[i] = playerState.JOINED;
+			break;
+		case playerState.JOINED:
+			status[i] = playerState.CONFIRMED;
+			break;
+		case playerState.CONFIRMED:
+			TryConfirm();
+			break;
+		}
+  }
+
+  void TryConfirm () {
+		int nbPlayers = 0;
+		foreach (playerState ps in status) {
+			if (ps == playerState.JOINED) // player has joined but not choosen yet
+				return;
+			if (ps == playerState.CONFIRMED)
+				nbPlayers++;
+		}
+		if (nbPlayers >= 2) {
+			myManager.ChangeMenuState (MenuState.MATCH);
+		}
   }
 
   void OnGUI () {
@@ -48,7 +86,7 @@ public class PlayersMenu : Menu {
 
   void BoxFor (int j, float posX, float posY) {
 		int i = j - 1;
-		if (status [i] == playerState.ABSENT || status [i] == playerState.CONFIRMED) {
+		if (status [i] == playerState.ABSENT) {
 			// darker color when nothing to do
 			GUI.backgroundColor = GUIUtils.Darker(colors [i]);
 		} else {
