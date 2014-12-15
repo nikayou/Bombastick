@@ -11,16 +11,15 @@ public class MatchLauncher : MonoBehaviour {
     foreach (GameObject go in GameObject.FindGameObjectsWithTag("GameController")) {
       if (go.name == "GameController") {
 	gameController = go;
-	Debug.Log("found gamecontroller");
       } else {
 	optionsHolder = go;
-	Debug.Log("found options holder");
       }
 	
     }
     DontDestroyOnLoad(optionsHolder);
     matchOptions = optionsHolder.GetComponent<MatchOptions>();
     SetMatchType (matchOptions.mode);
+    LoadMap (matchOptions.mapPath);
     Destroy(matchOptions);
     Destroy(optionsHolder);
     Destroy(this);
@@ -48,7 +47,16 @@ public class MatchLauncher : MonoBehaviour {
     } else {
       gameController.GetComponent<DeathMatch>().Reset(matchOptions.duration);
     }
-     
   }	
+
+  void LoadMap (string name) {
+    Tilemap tilemap = new Tilemap (WWW.EscapeURL ("Levels/"+name));
+    Tileset tileset = new Tileset (WWW.EscapeURL ("Levels/Tilesets/"+tilemap.GetTileset()));
+    Level lvl = GameObject.FindGameObjectWithTag("Level").GetComponent<Level>();
+    lvl.tileset = tileset;
+    lvl.map = tilemap;
+    lvl.Create();
+    Destroy(lvl);
+  }
 	
 }

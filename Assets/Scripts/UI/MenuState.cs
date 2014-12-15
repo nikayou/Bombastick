@@ -4,5 +4,6 @@
   PLAYERS,
   MATCH,
   SETTINGS,
+  LEVEL,
   NB
   }

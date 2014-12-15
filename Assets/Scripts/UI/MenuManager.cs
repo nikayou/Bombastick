@@ -13,6 +13,7 @@ public class MenuManager : MonoBehaviour {
     states[(int)MenuState.PLAYERS] = GetComponent<PlayersMenu>();
     states[(int)MenuState.MATCH] = GetComponent<MatchMenu>();
     states[(int)MenuState.SETTINGS] = GetComponent<SettingsMenu>();
+    states[(int)MenuState.LEVEL] = GetComponent<LevelMenu>();
   }
 
   void Start () {
