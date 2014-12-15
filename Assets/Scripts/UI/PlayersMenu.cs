@@ -40,6 +40,18 @@ public class PlayersMenu : Menu {
 		if (Input.GetButtonDown ("Fire4")) {
 			UpdatePlayerAfterOK(3);
 		}
+		if (Input.GetButtonDown ("Cancel1")) {
+			UpdatePlayerAfterBack(0);
+		} 
+		if (Input.GetButtonDown ("Cancel2")) {
+			UpdatePlayerAfterBack(1);
+		} 
+		if (Input.GetButtonDown ("Cancel3")) {
+			UpdatePlayerAfterBack(2);
+		} 
+		if (Input.GetButtonDown ("Cancel4")) {
+			UpdatePlayerAfterBack(3);
+		} 
   }
 
   void UpdatePlayerAfterOK (int i) {
@@ -56,6 +68,20 @@ public class PlayersMenu : Menu {
 		}
   }
 
+void UpdatePlayerAfterBack (int i) {
+	switch (status [i]) {
+		case playerState.ABSENT:
+			TryBack();
+			break;
+		case playerState.JOINED:
+			status[i] = playerState.ABSENT;
+			break;
+		case playerState.CONFIRMED:
+			status[i] = playerState.JOINED;
+			break;
+	}
+  }
+
   void TryConfirm () {
 		int nbPlayers = 0;
 		foreach (playerState ps in status) {
@@ -69,18 +95,27 @@ public class PlayersMenu : Menu {
 		}
   }
 
+  void TryBack () {
+		foreach (playerState ps in status) {
+			if (ps == playerState.JOINED || ps == playerState.CONFIRMED)
+				return;
+		}
+		// here, no player has joined
+		myManager.ChangeMenuState (MenuState.MAIN);
+  }
+
   void OnGUI () {
     GUI.Label (GUIUtils.CenteredNormal(.5f, .1f, .4f, .1f), "Players settings", skin.label);
     BoxFor (1, .25f, .25f);
     BoxFor (2, .75f, .25f);
     BoxFor (3, .25f, .75f);    
     BoxFor (4, .75f, .75f);    
-    if (GUI.Button (GUIUtils.CenteredNormal(.5f, .45f, .15f, .08f), "Next", skin.button)) {
+    /*if (GUI.Button (GUIUtils.CenteredNormal(.5f, .45f, .15f, .08f), "Next", skin.button)) {
       myManager.ChangeMenuState (MenuState.MATCH);
       }
     if (GUI.Button (GUIUtils.CenteredNormal(.5f, .55f, .15f, .08f), "Back", skin.button)) {
 	myManager.ChangeMenuState (MenuState.MAIN);
-      }
+      }*/
       
   }
 
