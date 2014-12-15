@@ -91,7 +91,7 @@ public class GUIUtils {
   /// <param name="width">Width.</param>
   /// <param name="height">Height.</param>
   /// <param name="col">Col.</param>
-  public Texture2D MakeTex( int width, int height, Color col )
+  public static Texture2D MakeTex( int width, int height, Color col )
   {
     Color[] pix = new Color[width * height];
     for( int i = 0; i < pix.Length; ++i )
@@ -103,5 +103,27 @@ public class GUIUtils {
     result.Apply();
     return result;
   }
+
+  public static Color reser (Color c) 
+	{
+		return MultColor (c, 1.25f, true);
+	}
+
+	public static Color Darker (Color c) 
+	{
+		return MultColor (c, 0.75f, true);
+	}
+
+	public static Color MultColor (Color c, float factor, bool keepAlpha = true) {
+		Color res = Color.black;
+		res.r = Mathf.Min (1, c.r * factor);
+		res.g = Mathf.Min (1, c.g * factor);
+		res.b = Mathf.Min (1, c.b * factor);
+		if (keepAlpha)
+			res.a = c.a;
+		else
+			res.a = Mathf.Min (1, c.a * factor);
+		return res;
+	}
 
 }
