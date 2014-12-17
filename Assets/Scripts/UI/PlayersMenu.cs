@@ -14,11 +14,20 @@ public class PlayersMenu : Menu {
 	private class PlayerCharacter {
 		public int colorIndex;
 		public playerState status;
+		public GameObject selfObject;
 		public GameObject avatar;
 		public GameObject confirmObject;
 		public RandomRotation rotationScript;
 
-		public PlayerCharacter() {}
+		public PlayerCharacter() {
+			status = playerState.ABSENT;
+		}
+		public void SetObject (GameObject o) {
+			selfObject = o;
+			avatar = o.transform.Find ("Avatar").gameObject;
+			confirmObject = o.transform.FindChild ("Confirm").gameObject;
+			rotationScript = avatar.GetComponent<RandomRotation>();
+		}
 		public void Colorise (Color c) {
 			if (status == playerState.ABSENT)
 				c = GUIUtils.Darker (c);
@@ -71,16 +80,13 @@ public class PlayersMenu : Menu {
 		players = new PlayerCharacter[4];
 		up = new bool[4];
 		down = new bool[4];
+		GameObject playersObject = GameObject.Find ("Players");
 		for (int i = 0; i < 4; i++) {
 			up[i] = false;
 			down[i] = false;
 			players [i] = new PlayerCharacter ();
 			players [i].colorIndex = i;
-			players [i].status = playerState.ABSENT;
-			GameObject playerObject = GameObject.Find("Player"+(i+1));
-			players [i].avatar = playerObject.transform.Find ("Avatar").gameObject;
-			players [i].confirmObject = playerObject.transform.FindChild ("Confirm").gameObject;
-			players [i].rotationScript = players [i].avatar.GetComponent<RandomRotation>();
+			players [i].SetObject(playersObject.transform.FindChild("Player"+(i+1)).gameObject);
 			players [i].Colorise (GUIUtils.Darker(possibleColors[i]));
 		}
 
@@ -96,7 +102,7 @@ public class PlayersMenu : Menu {
 	
 	void ShowCharacters (bool show) {
 		foreach (PlayerCharacter p in players) {
-			p.avatar.SetActive(show);
+			p.selfObject.SetActive(show);
 		}
 	}
 
