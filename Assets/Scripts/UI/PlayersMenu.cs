@@ -63,11 +63,17 @@ public class PlayersMenu : Menu {
 
   private MenuManager myManager;
   private PlayerCharacter [] players;
+  private bool [] up; // players that pressed UP the previous frame
+  private bool [] down; // players that pressed DOWN the previous frame
 
 	void Awake () {
 		myManager = GetComponent<MenuManager>();
 		players = new PlayerCharacter[4];
+		up = new bool[4];
+		down = new bool[4];
 		for (int i = 0; i < 4; i++) {
+			up[i] = false;
+			down[i] = false;
 			players [i] = new PlayerCharacter ();
 			players [i].colorIndex = i;
 			players [i].status = playerState.ABSENT;
@@ -109,17 +115,26 @@ public class PlayersMenu : Menu {
 			} 
 			if (players[i].status == playerState.JOINED) {
 				float y = Input.GetAxis ("Vertical" + j);
-				if (y != 0) {
-					Debug.Log ("\nold index: "+players[i].colorIndex);
-					if (y < 0) {
+				if (Mathf.Abs(y) < 0.5f) {
+					up[i] = down[i] = false;
+				} else if (y <= -0.5f) {
+					if (!up[i]) {
+						// player was not pressing UP before
 						players[i].colorIndex = NextColorIndexFrom(players[i].colorIndex, true);
-					} else {
-						// y > 0
-						players[i].colorIndex = NextColorIndexFrom(players[i].colorIndex, false);
+						players[i].Colorise (possibleColors[players[i].colorIndex]);
 					}
-					Debug.Log ("new index: "+players[i].colorIndex);
-					players[i].Colorise (possibleColors[players[i].colorIndex]);
+					up[i] = true;
+					down[i] = false;
+				} else if (y >= 0.5f) {
+					if (!down[i]) {
+						// player was not pressing DOWN before
+						players[i].colorIndex = NextColorIndexFrom(players[i].colorIndex, false);
+						players[i].Colorise (possibleColors[players[i].colorIndex]);
+					}
+					up[i] = false;
+					down[i] = true;
 				}
+			
 			}
 
 		}
