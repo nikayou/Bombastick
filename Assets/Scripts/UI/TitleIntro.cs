@@ -4,6 +4,8 @@ using System.Collections;
 public class TitleIntro : MonoBehaviour {
 
   public float introTime = 3.0f;
+  public MenuManager menuManager;
+  public Menu mainMenu;
   private float timer = 0f;
   private bool introed = false;
   public GameObject displayedObject;
@@ -21,6 +23,7 @@ public class TitleIntro : MonoBehaviour {
     } else {
       if (Input.anyKey) {
 		  displayedObject.SetActive(false);
+				menuManager.ShowMenu(mainMenu);
 		  Destroy (this);
       }
     }

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayersMenu : Menu {
+public class PlayersMenu : MonoBehaviour {
 
   enum playerState {
 		ABSENT,
@@ -70,17 +70,18 @@ public class PlayersMenu : Menu {
 
 	};
 
-  private MenuManager myManager;
+	public MenuManager menuManager;
+	public Menu nextMenu;
+	public Menu backMenu;
   private PlayerCharacter [] players;
   private bool [] up; // players that pressed UP the previous frame
   private bool [] down; // players that pressed DOWN the previous frame
 
 	void Awake () {
-		myManager = GetComponent<MenuManager>();
 		players = new PlayerCharacter[4];
 		up = new bool[4];
 		down = new bool[4];
-		GameObject playersObject = GameObject.Find ("Players");
+		GameObject playersObject = transform.FindChild ("Canvas/Players").gameObject;
 		for (int i = 0; i < 4; i++) {
 			up[i] = false;
 			down[i] = false;
@@ -156,7 +157,7 @@ public class PlayersMenu : Menu {
 				nbPlayers++;
 		}
 		if (nbPlayers >= 2) {
-			myManager.ChangeMenuState (MenuState.MATCH);
+			NextMenu();
 			//ShowCharacters (false);
 		}
 	}
@@ -168,7 +169,7 @@ public class PlayersMenu : Menu {
 				return;
 		}
 		// here, no player has joined
-		myManager.ChangeMenuState (MenuState.MAIN);
+		BackMenu();
 		//ShowCharacters (false);
 	}
 
@@ -176,12 +177,14 @@ public class PlayersMenu : Menu {
 	int NextColorIndexFrom (int i, bool up) {
 		// check the next color that is not already taken
 		int origin = i;
-		bool taken = true;
 		int max = possibleColors.Length-1;
-		int [] takenColors = new int[3];
-		for (int j = 0; j < 3; j++) {
-			if (j == origin && j < 2)
-				j++;
+		int [] takenColors = new int[4];
+		for (int j = 0; j < 4; j++) {
+			if (players[j].colorIndex == origin) {
+				// we are comparing to "self" player
+				takenColors[j] = -1;
+				continue;
+			}
 			takenColors[j] = players[j].colorIndex;
 		}
 		do {
@@ -194,8 +197,18 @@ public class PlayersMenu : Menu {
 				if (i < 0)
 					i = max;
 			}
-		} while (i == takenColors[0] || i == takenColors[1] || i == takenColors[2]);
+		} while (i == takenColors[0] || i == takenColors[1] || i == takenColors[2] || i == takenColors[3]);
 		return i;
 	}
-	
+
+	void NextMenu () {
+		menuManager.ShowMenu(nextMenu);
+		this.enabled = false;
+	}
+
+	void BackMenu () {
+		this.enabled = false;
+		menuManager.ShowMenu(backMenu);
+	}
+
 }

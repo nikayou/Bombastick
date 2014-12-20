@@ -1,103 +1,68 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
-public class MatchMenu : Menu {
+public class MatchMenu : MonoBehaviour {
 
-  private MenuManager myManager;
-  private MatchType matchType = MatchType.TIMED;
-  private float duration = 90.0f;
-  private float subTitleY = .35f;
-  private MatchOptions matchOptions;
+	private MatchOptions matchOptions;
+	private MatchType matchType = MatchType.TIMED;
+	public MenuManager menuManager;
+	public Menu backMenu;
+	public Menu nextMenu;
+	public float duration;
+	public Text durationSelect;
+	public Text modeSelect;
 
-  void Awake () {
-    myManager = GetComponent<MenuManager>();
-  }
+	public void NextMode () {
+		int newMode = (int)(matchType)+1;
+		if (newMode >= (int)(MatchType.NB))
+			newMode = 0;
+		matchType = (MatchType)(newMode);
+		UpdateMode ();
+	}
 
-  void Start () {
-    GameObject optionsHolder = GameObject.FindGameObjectWithTag("GameController");
-    DontDestroyOnLoad(optionsHolder);
-    matchOptions = optionsHolder.GetComponent<MatchOptions>();
-  }
+	public void Activate (GameObject o) {
+		o.SetActive(true);
+	}
 
-  void OnGUI () {
-    GUI.Label (GUIUtils.CenteredNormal(.5f, .1f, .4f, .1f), "Match options", skin.label);
-    ModeGUI ();
-    // change mode
-    if (GUI.Button (GUIUtils.CenteredNormal(.3f, subTitleY, .1f, .1f), "<", skin.button) ) {
-      int newMode = (int)(matchType)-1;
-      if (newMode < 0)
-	newMode = ((int)MatchType.NB)-1;
-      matchType = (MatchType)(newMode);
-    }
-    if (GUI.Button (GUIUtils.CenteredNormal(.7f, subTitleY, .1f, .1f), ">", skin.button) ) {
-      int newMode = (int)(matchType)+1;
-      if (newMode >= (int)(MatchType.NB))
-	newMode = 0;
-      matchType = (MatchType)(newMode);
-    }
-    // next & previous
-    if (GUI.Button (GUIUtils.CenteredNormal(.5f, .8f, .15f, .08f), "Next", skin.button)) {
-    matchOptions.duration = duration;
-    matchOptions.mode = matchType;
-      myManager.ChangeMenuState (MenuState.LEVEL);
-    }
-    if (GUI.Button (GUIUtils.CenteredNormal(.5f, .9f, .15f, .08f), "Back", skin.button)) {
-      myManager.ChangeMenuState (MenuState.PLAYERS);
-    }
-  }
+	public void NextMenu () {
+		menuManager.ShowMenu(nextMenu);
+	}
 
-  void ModeGUI () {
-    switch (matchType) {
-    case MatchType.TIMED: 
-      TimedGUI();
-      break;
-    case MatchType.TARGET: 
-      TargetGUI();
-      break;
-    case MatchType.LAST_MAN: 
-      LastManGUI();
-      break;
-    case MatchType.DEATH: 
-      DeathGUI();
-      break;
-    default:
-      Debug.Log ("Error: incorrect match type");
-      break;
-    }
-  }
+	public void BackMenu () {
+		menuManager.ShowMenu(backMenu);
+		backMenu.gameObject.GetComponent<PlayersMenu>().enabled = true;
+	}
 
-  void TimedGUI () {
-    SubTitle ("Timed match");
-    DurationGUI ();
-   
-  }
+	public void Update () {
+		if (Input.GetButton("Cancel1") || Input.GetButton("Cancel2") || Input.GetButton("Cancel3") || Input.GetButton("Cancel4")) {
+			BackMenu ();
+		}
+	}
 
-  void TargetGUI () {
-    SubTitle ("Target match");
-    DurationGUI ();
-  }
+	public void UpdateDuration (float d) {
+		duration = d;
+		durationSelect.text = ""+d;
+	}
 
-  void LastManGUI () {
-    SubTitle ("Last man match");
-    DurationGUI ();
-  }
-
-  void DeathGUI () {
-    SubTitle ("Death match");
-    DurationGUI ();
-  }
-
-  void SubTitle (string subtitle) {
-    GUI.Label (GUIUtils.CenteredNormal(.5f, subTitleY, .3f, .1f), subtitle, skin.label);
-  }
-
-  void DurationGUI () {
-    float roundedDuration = Mathf.Round(duration);
-    string msg = "Duration : "+roundedDuration;
-    GUI.Label (GUIUtils.CenteredNormal(.5f, .5f, .3f, .1f), msg, skin.label);
-    duration = GUI.HorizontalSlider(GUIUtils.CenteredNormal(.5f, .65f, .4f, .1f), duration, 30f, 300f);
-  }
-
- 
+	public void UpdateMode () {
+		switch (matchType) {
+		case MatchType.TIMED:
+			modeSelect.text = "Best time match";
+				break;
+		case MatchType.TARGET:
+			modeSelect.text = "Target time match";
+				break;
+		case MatchType.LAST_MAN:
+			modeSelect.text = "Last man keeping";
+				break;
+		case MatchType.DEATH:
+			modeSelect.text = "Deathmatch";
+				break;
+		default:
+			modeSelect.text = "Error";
+			break;
+		}
+	}
 
 }
