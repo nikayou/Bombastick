@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 9946542de1406da42a6e0aad13c6ff75
+TrueTypeFontImporter:
+  serializedVersion: 2
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 1
+  characterPadding: 0
+  includeFontData: 1
+  use2xBehaviour: 0
+  fontNames:
+  - BebasNeue
+  customCharacters: 
+  fontRenderingMode: 0
+  userData: 
