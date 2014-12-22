@@ -81,7 +81,7 @@ public class PlayersMenu : MonoBehaviour {
 	public AudioClip chooseClip;
 	public AudioClip nextClip;
 	public AudioClip cancelClip;
-
+	public MenuLinesControl linesControl;
 
 	void Awake () {
 		players = new PlayerCharacter[4];
@@ -216,11 +216,13 @@ public class PlayersMenu : MonoBehaviour {
 		menuManager.ShowMenu(nextMenu);
 		SyncDataWithController();
 		nextMenu.gameObject.GetComponent<MatchMenu>().enabled = true;
+		linesControl.RandomPosition();
 		this.enabled = false;
 	}
 
 	void BackMenu () {
 		menuManager.ShowMenu(backMenu);
+		linesControl.RandomPosition();
 		this.enabled = false;
 	}
 

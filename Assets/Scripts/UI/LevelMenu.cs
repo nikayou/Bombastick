@@ -15,6 +15,7 @@ public class LevelMenu : MonoBehaviour {
 	public Menu backMenu;
 	public AudioSource audioSource;
 	public AudioClip cancelClip;
+	public MenuLinesControl linesControl;
 
 	void Awake () {
 		maps = LoadMapsFromDirectory ("Levels/");
@@ -39,6 +40,7 @@ public class LevelMenu : MonoBehaviour {
 		audioSource.PlayOneShot(cancelClip);
 		backMenu.gameObject.GetComponent<MatchMenu>().enabled = true;
 		menuManager.ShowMenu(backMenu);
+		linesControl.RandomPosition();
 		this.enabled = false;
     }
 

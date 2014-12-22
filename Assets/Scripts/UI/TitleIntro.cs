@@ -11,6 +11,7 @@ public class TitleIntro : MonoBehaviour {
   public GameObject displayedObject;
 	public AudioSource audioSource;
 	public AudioClip audioClip;
+	public MenuLinesControl linesControl;
 
   void Update () {
     if (!introed) {
@@ -26,7 +27,8 @@ public class TitleIntro : MonoBehaviour {
       if (Input.anyKey) {
 		  displayedObject.SetActive(false);
 		  menuManager.ShowMenu(mainMenu);
-		  audioSource.PlayOneShot(audioClip);
+				audioSource.PlayOneShot(audioClip);
+				linesControl.RandomPosition();
 		  Destroy (this);
       }
     }

@@ -15,6 +15,7 @@ public class MatchMenu : MonoBehaviour {
 	public MatchSettings matchSettings;
 	public AudioSource audioSource;
 	public AudioClip cancelClip;
+	public MenuLinesControl linesControl;
 
 	void Start () {
 		UpdateMode ();
@@ -42,6 +43,7 @@ public class MatchMenu : MonoBehaviour {
 		audioSource.PlayOneShot(cancelClip);
 		menuManager.ShowMenu(backMenu);
 		backMenu.gameObject.GetComponent<PlayersMenu>().enabled = true;
+		linesControl.RandomPosition();
 		this.enabled = false;
 	}
 
