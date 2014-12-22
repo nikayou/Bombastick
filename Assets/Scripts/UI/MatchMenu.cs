@@ -12,6 +12,11 @@ public class MatchMenu : MonoBehaviour {
 	public float duration;
 	public Text durationSelect;
 	public Text modeSelect;
+	public MatchSettings matchSettings;
+
+	void Start () {
+		UpdateMode ();
+	}
 
 	public void NextMode () {
 		int newMode = (int)(matchType)+1;
@@ -27,14 +32,17 @@ public class MatchMenu : MonoBehaviour {
 
 	public void NextMenu () {
 		menuManager.ShowMenu(nextMenu);
+		nextMenu.gameObject.GetComponent<LevelMenu>().enabled = true;
+		this.enabled = false;
 	}
 
 	public void BackMenu () {
 		menuManager.ShowMenu(backMenu);
 		backMenu.gameObject.GetComponent<PlayersMenu>().enabled = true;
+		this.enabled = false;
 	}
 
-	public void Update () {
+	void Update () {
 		if (Input.GetButton("Cancel1") || Input.GetButton("Cancel2") || Input.GetButton("Cancel3") || Input.GetButton("Cancel4")) {
 			BackMenu ();
 		}
@@ -63,6 +71,11 @@ public class MatchMenu : MonoBehaviour {
 			modeSelect.text = "Error";
 			break;
 		}
+	}
+
+	public void SyncDataToController () {
+		matchSettings.SetMatchDuration(duration);
+		matchSettings.SetMatchMode(matchType);
 	}
 
 }

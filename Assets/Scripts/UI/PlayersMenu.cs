@@ -73,9 +73,11 @@ public class PlayersMenu : MonoBehaviour {
 	public MenuManager menuManager;
 	public Menu nextMenu;
 	public Menu backMenu;
-  private PlayerCharacter [] players;
-  private bool [] up; // players that pressed UP the previous frame
-  private bool [] down; // players that pressed DOWN the previous frame
+    private PlayerCharacter [] players;
+    private bool [] up; // players that pressed UP the previous frame
+    private bool [] down; // players that pressed DOWN the previous frame
+	public MatchSettings matchSettings;
+
 
 	void Awake () {
 		players = new PlayerCharacter[4];
@@ -203,12 +205,22 @@ public class PlayersMenu : MonoBehaviour {
 
 	void NextMenu () {
 		menuManager.ShowMenu(nextMenu);
+		SyncDataWithController();
+		nextMenu.gameObject.GetComponent<MatchMenu>().enabled = true;
 		this.enabled = false;
 	}
 
 	void BackMenu () {
-		this.enabled = false;
 		menuManager.ShowMenu(backMenu);
+		this.enabled = false;
+	}
+
+	public void SyncDataWithController () {
+		for (int i = 0; i < players.Length; i++) {
+			if (players[i].status == playerState.CONFIRMED) {
+				matchSettings.SetPlayerColor(i, possibleColors[players[i].colorIndex]);
+			}
+		}
 	}
 
 }

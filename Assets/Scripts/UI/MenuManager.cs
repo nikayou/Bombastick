@@ -13,9 +13,12 @@ public class MenuManager : MonoBehaviour
 	}
 
 	public void ShowMenu (Menu m) {
-		if (current != null)
+		if (current != null) {
 			current.IsOpen = false;
+			current.enabled = false;
+		}
 		current = m;
+		current.enabled = true;
 		current.IsOpen = true;
 		current.SelectFirst();
 	}

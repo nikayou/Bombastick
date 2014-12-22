@@ -10,6 +10,9 @@ public class LevelMenu : MonoBehaviour {
 	private Queue<string> maps;
 	private int index;
 	public Text mapName;
+	public MatchSettings matchSettings;
+	public MenuManager menuManager;
+	public Menu backMenu;
 
 	void Awake () {
 		maps = LoadMapsFromDirectory ("Levels/");
@@ -23,6 +26,18 @@ public class LevelMenu : MonoBehaviour {
 	void OnEnable () {
 		DisplayMap ();
 	}
+
+	void Update () {
+		if (Input.GetButton("Cancel1") || Input.GetButton("Cancel2") || Input.GetButton("Cancel3") || Input.GetButton("Cancel4")) {
+			BackMenu ();
+        }
+	}
+
+	public void BackMenu () {
+		backMenu.gameObject.GetComponent<MatchMenu>().enabled = true;
+		menuManager.ShowMenu(backMenu);
+		this.enabled = false;
+    }
 
 	Queue<string> LoadMapsFromDirectory(string path) 
 	{
@@ -60,9 +75,14 @@ public class LevelMenu : MonoBehaviour {
 	}
   
 
-  void LaunchMatch () {
-    GameObject.FindGameObjectWithTag("GameController").GetComponent<MatchOptions>().mapPath = maps.ElementAt(index);
-    Application.LoadLevel(1);
+  public void LaunchMatch () {
+		Debug.Log ("launching match...");
+        Application.LoadLevel(1);
+		Debug.Log ("launched match");
+  }
+
+  public void SyncDataWithController () {
+		matchSettings.SetLevelName(maps.ElementAt(index));
   }
 
 }
