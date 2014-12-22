@@ -22,6 +22,8 @@ public class LevelMenu : MonoBehaviour {
 		if (maps.Count <= 0) {
 			// TODO: no level can be found: loading default map
 			Debug.Log ("No level to load");
+		} else {
+			DisplayMap ();
 		}
 		index = 0;
 	}
@@ -81,9 +83,7 @@ public class LevelMenu : MonoBehaviour {
   
 
   public void LaunchMatch () {
-		Debug.Log ("launching match...");
         Application.LoadLevel(1);
-		Debug.Log ("launched match");
   }
 
   public void SyncDataWithController () {

@@ -17,7 +17,6 @@ public class MenuLinesControl : MonoBehaviour {
 	}
 
 	public void SetTo (float x, float y) {
-		Debug.Log ("setting to "+x+","+y);
 		StartCoroutine(TransitionTo(x,y));
 	}
 
