@@ -9,7 +9,9 @@ public class TitleIntro : MonoBehaviour {
   private float timer = 0f;
   private bool introed = false;
   public GameObject displayedObject;
-	
+	public AudioSource audioSource;
+	public AudioClip audioClip;
+
   void Update () {
     if (!introed) {
       timer += Time.deltaTime;
@@ -23,7 +25,8 @@ public class TitleIntro : MonoBehaviour {
     } else {
       if (Input.anyKey) {
 		  displayedObject.SetActive(false);
-				menuManager.ShowMenu(mainMenu);
+		  menuManager.ShowMenu(mainMenu);
+		  audioSource.PlayOneShot(audioClip);
 		  Destroy (this);
       }
     }

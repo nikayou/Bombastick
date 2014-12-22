@@ -13,6 +13,8 @@ public class MatchMenu : MonoBehaviour {
 	public Text durationSelect;
 	public Text modeSelect;
 	public MatchSettings matchSettings;
+	public AudioSource audioSource;
+	public AudioClip cancelClip;
 
 	void Start () {
 		UpdateMode ();
@@ -37,6 +39,7 @@ public class MatchMenu : MonoBehaviour {
 	}
 
 	public void BackMenu () {
+		audioSource.PlayOneShot(cancelClip);
 		menuManager.ShowMenu(backMenu);
 		backMenu.gameObject.GetComponent<PlayersMenu>().enabled = true;
 		this.enabled = false;

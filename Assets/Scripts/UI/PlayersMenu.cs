@@ -77,6 +77,10 @@ public class PlayersMenu : MonoBehaviour {
     private bool [] up; // players that pressed UP the previous frame
     private bool [] down; // players that pressed DOWN the previous frame
 	public MatchSettings matchSettings;
+	public AudioSource audioSource;
+	public AudioClip chooseClip;
+	public AudioClip nextClip;
+	public AudioClip cancelClip;
 
 
 	void Awake () {
@@ -127,6 +131,7 @@ public class PlayersMenu : MonoBehaviour {
 				if (Mathf.Abs(y) < 0.5f) {
 					up[i] = down[i] = false;
 				} else if (y <= -0.5f) {
+					audioSource.PlayOneShot(chooseClip);
 					if (!up[i]) {
 						// player was not pressing UP before
 						players[i].colorIndex = NextColorIndexFrom(players[i].colorIndex, true);
@@ -135,6 +140,7 @@ public class PlayersMenu : MonoBehaviour {
 					up[i] = true;
 					down[i] = false;
 				} else if (y >= 0.5f) {
+					audioSource.PlayOneShot(chooseClip);
 					if (!down[i]) {
 						// player was not pressing DOWN before
 						players[i].colorIndex = NextColorIndexFrom(players[i].colorIndex, false);
@@ -155,11 +161,13 @@ public class PlayersMenu : MonoBehaviour {
 			playerState ps = p.status;
 			if (ps == playerState.JOINED) // player has joined but not choosen yet
 				return;
-			if (ps == playerState.CONFIRMED)
+			if (ps == playerState.CONFIRMED) {
 				nbPlayers++;
+			}
 		}
 		if (nbPlayers >= 2) {
 			NextMenu();
+			audioSource.PlayOneShot(nextClip);
 			//ShowCharacters (false);
 		}
 	}
@@ -171,6 +179,7 @@ public class PlayersMenu : MonoBehaviour {
 				return;
 		}
 		// here, no player has joined
+		audioSource.PlayOneShot(cancelClip);
 		BackMenu();
 		//ShowCharacters (false);
 	}
