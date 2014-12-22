@@ -201,7 +201,7 @@ public class PlayersMenu : MonoBehaviour {
 		do {
 			if (up) {
 				i += 1;
-				if (i >= max)
+				if (i > max)
 					i = 0;
 			} else {
 				i -= 1;
