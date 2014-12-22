@@ -3,10 +3,10 @@ using System.Collections;
 
 public class MatchSettings : MonoBehaviour {
 
-	private Color [] playersColors;
-	private MatchType matchType;
-	private float duration;
-	private string levelName;
+	public Color [] playersColors;
+	public MatchType matchType;
+	public float duration;
+	public string levelName;
 
 	void Awake () {
 		Color dummy = new Color(0,0,0,0);

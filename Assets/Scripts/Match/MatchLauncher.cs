@@ -3,49 +3,42 @@ using System.Collections;
 
 public class MatchLauncher : MonoBehaviour {
 
-  private GameObject optionsHolder;
-  private MatchOptions matchOptions;
-  private GameObject gameController; 
+  public GameObject matchController;
+  public GameObject playerPrefab;
+  private Vector3 [] positionForPlayer;
 
   void Start () {
-    foreach (GameObject go in GameObject.FindGameObjectsWithTag("GameController")) {
-      if (go.name == "GameController") {
-	gameController = go;
-      } else {
-	optionsHolder = go;
-      }
-	
-    }
-    DontDestroyOnLoad(optionsHolder);
-    matchOptions = optionsHolder.GetComponent<MatchOptions>();
-    SetMatchType (matchOptions.mode);
-    LoadMap (matchOptions.mapPath);
-    Destroy(matchOptions);
-    Destroy(optionsHolder);
+	GameObject matchSettingsHolder; 
+	matchSettingsHolder = GameObject.FindGameObjectWithTag("GameController");
+	MatchSettings matchSettings = matchSettingsHolder.GetComponent<MatchSettings>(); 
+    SetMatch (matchSettings.matchType, matchSettings.duration);
+    LoadMap (matchSettings.levelName);
+	SetPlayers (matchSettings.playersColors);
+	Destroy (matchSettingsHolder);
     Destroy(this);
   }
 
-  void SetMatchType (MatchType matchType) {
+  void SetMatch (MatchType matchType, float duration) {
     if (matchType != MatchType.TIMED) {
-      Destroy(gameController.GetComponent<TimedMatch>());
+      Destroy(matchController.GetComponent<TimedMatch>());
     } else {
-      TimedMatch tm = gameController.GetComponent<TimedMatch>();
-      tm.Reset(matchOptions.duration);
+      TimedMatch tm = matchController.GetComponent<TimedMatch>();
+      tm.Reset(duration);
     }
     if (matchType != MatchType.TARGET) {
-      Destroy(gameController.GetComponent<TargetMatch>());
+      Destroy(matchController.GetComponent<TargetMatch>());
     } else {
-      gameController.GetComponent<TargetMatch>().Reset(matchOptions.duration);
+      matchController.GetComponent<TargetMatch>().Reset(duration);
     }
     if (matchType != MatchType.LAST_MAN) {
-      Destroy(gameController.GetComponent<LastManMatch>());
+      Destroy(matchController.GetComponent<LastManMatch>());
     } else {
-      gameController.GetComponent<LastManMatch>().Reset(matchOptions.duration);
+      matchController.GetComponent<LastManMatch>().Reset(duration);
     }
     if (matchType != MatchType.DEATH) {
-      Destroy(gameController.GetComponent<DeathMatch>());
+      Destroy(matchController.GetComponent<DeathMatch>());
     } else {
-      gameController.GetComponent<DeathMatch>().Reset(matchOptions.duration);
+      matchController.GetComponent<DeathMatch>().Reset(duration);
     }
   }	
 
@@ -58,5 +51,20 @@ public class MatchLauncher : MonoBehaviour {
     lvl.Create();
     Destroy(lvl);
   }
+
+  void SetPlayers (Color [] colors) {
+		for (int i = 0; i < colors.Length; i++) {
+			if (colors[i].a == 0) {
+				// no color for this player = no color
+				continue;
+			} else {
+				GameObject p = Instantiate(playerPrefab) as GameObject;
+				PlayerController pc = p.GetComponent<PlayerController>();
+				pc.color = colors[i];
+				p.transform.position = positionForPlayer[i];
+			}
+		}
+  }
+
 	
 }
