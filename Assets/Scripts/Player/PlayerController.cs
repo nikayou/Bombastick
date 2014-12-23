@@ -1,10 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerController : MonoBehaviour {
+public class PlayerController : MonoBehaviour
+{
 
-  public int playerID = 1;		      
-  public Color color;
+  public int playerID = 1;
+
+  private Color _color;
+  public Color color {
+    get { return _color; }
+    set { _color = value;
+      Colorise (); }
+  }
+
   private Respawn respawnScript;
   private GameObject myEyes;
   private float score = 0f;
@@ -12,21 +20,25 @@ public class PlayerController : MonoBehaviour {
   private DropBomb dropBombScript;
 
   // Use this for initialization
-  void Awake () {
+  void Awake ()
+  {
     renderer.material.color = color;
-    myEyes = transform.Find("Eyes").gameObject;
-    respawnScript = GetComponent<Respawn>();
+    myEyes = transform.Find ("Eyes").gameObject;
+    respawnScript = GetComponent<Respawn> ();
   }
 
-  void Start () {
-    dropBombScript = GetComponent<DropBomb>();
+  void Start ()
+  {
+    dropBombScript = GetComponent<DropBomb> ();
   }
 
-  public int GetID () {
+  public int GetID ()
+  {
     return playerID;
   }
 
-  public void SetLife (bool val = true) {
+  public void SetLife (bool val = true)
+  {
     respawnScript.enabled = !val;
     this.renderer.enabled = val;
     myEyes.renderer.enabled = val;
@@ -36,7 +48,8 @@ public class PlayerController : MonoBehaviour {
     }
   }
 
-  public void PickObject (Transform what) {
+  public void PickObject (Transform what)
+  {
     dropBombScript.enabled = false;
     what.parent = transform;
     what.transform.localPosition = Vector3.zero;
@@ -44,9 +57,10 @@ public class PlayerController : MonoBehaviour {
     isOwner = true;
   }
 
-  public void LoseObject () {
+  public void LoseObject ()
+  {
     isOwner = false;
-    Transform obj = transform.Find("Star");
+    Transform obj = transform.Find ("Star");
     if (obj) {
       obj.localScale *= 2;
       obj.parent = null;
@@ -54,20 +68,29 @@ public class PlayerController : MonoBehaviour {
     dropBombScript.enabled = true;
   }
 
-  public bool IsOwner () {
+  public bool IsOwner ()
+  {
     return isOwner;
-  } 
+  }
 
-  public float AddScore (float amount) {
+  public float AddScore (float amount)
+  {
     return (score += amount);
   }
 
-  public float GetScore () {
+  public float GetScore ()
+  {
     return score;
-  } 
+  }
 
-  public float SetScore (float value) {
+  public float SetScore (float value)
+  {
     return (score = value);
+  }
+
+  public void Colorise ()
+  {
+    renderer.material.color = color;
   }
 
 }
