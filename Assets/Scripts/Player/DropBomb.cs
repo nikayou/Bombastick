@@ -9,7 +9,7 @@ public class DropBomb : MonoBehaviour
 
   public GameObject bombPrefab;
   public float cooldown = 4.0f;
-  private bool canBomb = true;
+  public bool canBomb = true;
   private PlayerController myController;
   public AudioClip sound;
 

@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent (typeof(Respawn))]
+[RequireComponent (typeof(DropBomb))]
+
 public class PlayerController : MonoBehaviour
 {
 
@@ -25,14 +28,13 @@ public class PlayerController : MonoBehaviour
   void Awake ()
   {
     renderer.material.color = color;
-    myEyes = transform.Find ("Eyes").gameObject;
-    respawnScript = GetComponent<Respawn> ();
-    dropBombScript = GetComponent<DropBomb> ();
+    myEyes = transform.FindChild ("Eyes").gameObject;
   }
 
   void Start ()
   {
-    dropBombScript = GetComponent<DropBomb> ();
+    respawnScript = gameObject.GetComponent<Respawn> ();
+    dropBombScript = gameObject.GetComponent<DropBomb> ();
   }
 
   public int GetID ()
@@ -44,12 +46,13 @@ public class PlayerController : MonoBehaviour
     playerID = (i<0)?0:i;
   }
 
-  public void SetLife (bool val = true)
+  public void SetLife (bool val)
   {
-    respawnScript.enabled = !val;
     this.renderer.enabled = val;
     myEyes.renderer.enabled = val;
     this.collider2D.enabled = val;
+    dropBombScript.canBomb = val;
+    respawnScript.enabled = !val;
     if (!val) {
       LoseObject ();
     }

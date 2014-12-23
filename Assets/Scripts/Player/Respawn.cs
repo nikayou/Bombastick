@@ -9,7 +9,7 @@ public class Respawn : MonoBehaviour
   public float respawnTime = 4.0f;
   public Respawner respawner;
   private PlayerController myController;
-  private bool launched = false;
+  public bool launched = false;
 
   void Awake ()
   {
