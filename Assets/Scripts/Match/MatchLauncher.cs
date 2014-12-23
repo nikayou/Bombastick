@@ -5,7 +5,7 @@ public class MatchLauncher : MonoBehaviour {
 
   public GameObject matchController;
   public GameObject playerPrefab;
-  private Vector3 [] positionForPlayer;
+  private Vector3 [] spawnPoint;
 
   void Start () {
 	GameObject matchSettingsHolder; 
@@ -14,6 +14,7 @@ public class MatchLauncher : MonoBehaviour {
     SetMatch (matchSettings.matchType, matchSettings.duration);
     LoadMap (matchSettings.levelName);
 	SetPlayers (matchSettings.playersColors);
+		//TODO: also set camera, considering border
 	Destroy (matchSettingsHolder);
     Destroy(this);
   }
@@ -45,6 +46,17 @@ public class MatchLauncher : MonoBehaviour {
   void LoadMap (string name) {
     Tilemap tilemap = new Tilemap (WWW.EscapeURL ("Levels/"+name));
     Tileset tileset = new Tileset (WWW.EscapeURL ("Levels/Tilesets/"+tilemap.GetTileset()));
+	// computing spawn points
+		float halfTileSize = tileset.GetTileSize() / 2f;
+		float w = tilemap.GetWidth() * halfTileSize; // w*(s/2) is the same as (w*s)/2
+		float h = tilemap.GetHeight() * halfTileSize;
+		float upper = h - halfTileSize;
+		float right = w - halfTileSize;
+		spawnPoint[0] = new Vector3(halfTileSize, upper, 0);
+		spawnPoint[1] = new Vector3(right, halfTileSize, 0);
+		spawnPoint[2] = new Vector3(halfTileSize, halfTileSize, 0);
+		spawnPoint[3] = new Vector3(right, upper, 0);
+	//
     Level lvl = GameObject.FindGameObjectWithTag("Level").GetComponent<Level>();
     lvl.tileset = tileset;
     lvl.map = tilemap;
@@ -61,7 +73,7 @@ public class MatchLauncher : MonoBehaviour {
 				GameObject p = Instantiate(playerPrefab) as GameObject;
 				PlayerController pc = p.GetComponent<PlayerController>();
 				pc.color = colors[i];
-				p.transform.position = positionForPlayer[i];
+				p.transform.position = spawnPoint[i];
 			}
 		}
   }
