@@ -60,7 +60,7 @@ public class Level : MonoBehaviour
   GameObject CreateTile (int tileIndex)
   {
     // retrieving the tile corresponding to the index
-    Tile tile = tileset.Get (tileIndex);
+    Tile tile = tileset.Get (tileIndex-1);
     // if in the map, the index is 0, we do not create
     if (tileIndex == 0) {
       return null;
@@ -86,6 +86,11 @@ public class Level : MonoBehaviour
     }
     sr.sprite = sp;
     // TODO: colliders and destruction
+    go.collider2D.isTrigger = !tile.blocking;
+    Debug.Log ("blocking: "+tile.blocking+" -> "+!go.collider2D.isTrigger);
+    if (tile.destructable) {
+      go.transform.tag = "Destructable";
+    }
     return go;
   }
 
@@ -98,6 +103,8 @@ public class Level : MonoBehaviour
     } else {
       tile = Instantiate (borderPrefab) as GameObject;
     }
+    
+    tile.collider2D.isTrigger = false;
     tile.transform.name = "BorderTile";
     for (int x = -1; x <= w; x++) {
       PlaceBorder (tile, x, 0, borderContainer);
@@ -112,7 +119,7 @@ public class Level : MonoBehaviour
   {
     GameObject tile = Instantiate (origin) as GameObject;
     tile.transform.parent = parent;
-    //    tile.transform.isStatic = true;
+    tile.isStatic = true;
     tile.transform.localScale = Vector3.one;
     tile.transform.localPosition = new Vector3 (x, y, 0);
   }

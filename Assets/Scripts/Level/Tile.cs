@@ -4,25 +4,13 @@ using System.Collections;
 public class Tile
 {
 
-  private bool blocking;
-  private bool destructable;
+  public bool blocking;
+  public bool destructable;
 
   public Tile (bool _blocking = false, bool _destructable = false)
   {
     blocking = _blocking;
     destructable = _destructable;
-  }
-
-  public void SetSprite (Sprite s)
-  {
-    //SpriteRenderer sr = (SpriteRenderer)this.renderer;
-    //sr.sprite = s;
-  }
-
-  public static Tile FromXML (string s)
-  {
-    // TODO
-    return null;
   }
 
   public static string ToXML (Tile t)

@@ -22,6 +22,8 @@ public class DropBomb : MonoBehaviour
     if (canBomb && Input.GetButtonDown ("Fire" + myController.GetID ())) {
       GameObject newBomb = Instantiate (bombPrefab) as GameObject;
       newBomb.transform.position = transform.position;
+      //newBomb.transform.parent = transform;
+      newBomb.transform.localScale = transform.lossyScale;
       StartCoroutine (SetCooldown ());
     }
   }

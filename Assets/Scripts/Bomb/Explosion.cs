@@ -11,7 +11,7 @@ public class Explosion : MonoBehaviour
 
   void Start ()
   {
-    if (GameObject.FindGameObjectWithTag ("GameController").GetComponent<DeathMatch> () != null) {
+    if (GameObject.Find ("MatchController").GetComponent<DeathMatch> () != null) {
       deathMatch = true;
     }
     Destroy (transform.parent.gameObject, explosionTime);

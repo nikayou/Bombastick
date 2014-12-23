@@ -7,7 +7,7 @@ using System.Collections;
 public class Move : MonoBehaviour
 {
 
-  public float speed = 3.0f;
+  public float speed = 48.0f;
   public float movementSmooth = 1.5f;
   public float rotationSmooth = 5f;
   private Vector2 destination;

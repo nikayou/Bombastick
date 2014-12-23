@@ -29,7 +29,6 @@ public class MatchLauncher : MonoBehaviour
         new Color (1, 0, 0, 0)
       });
     }
-    //TODO: also set camera, considering border
     Destroy (matchSettingsHolder);
     Destroy (this);
   }
@@ -84,10 +83,8 @@ public class MatchLauncher : MonoBehaviour
     float orthoV = tileset.GetTileSize () * ((2 + tilemap.GetWidth ()) / 2f); // required size to display every row
     float orthoH = tileset.GetTileSize () * ((2 + tilemap.GetHeight ()) / 2f); // required size to display every column
     float fixedOrthoV = (orthoV * Camera.main.aspect < orthoV) ? orthoH * Camera.main.aspect : orthoV;
-    //Camera.main.orthographicSize = Mathf.Max(orthoV, fixedOrthoV);
     Camera.main.orthographicSize = fixedOrthoV;
     // creating level
-    //level.transform.position = new Vector3 (levelScale.x, -levelScale.y, 0f);
     Level lvl = level.GetComponent<Level> ();
     lvl.borderIndex = tileset.GetBorderIndex ();
     lvl.tileset = tileset;
