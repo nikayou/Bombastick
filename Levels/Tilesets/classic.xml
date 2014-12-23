@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<TILESET tilesize="64" image="classic.png">
+<TILESET tilesize="64" image="classic.png" borderIndex="1">
   <TILE index="0" blocking="false" />
   <TILE index="1" destructable="false" blocking="true"/>
   <TILE index="2" destructable="true" blocking="true"/>

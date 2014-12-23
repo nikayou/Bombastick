@@ -9,6 +9,7 @@ public class Level : MonoBehaviour
   public Tilemap map;
   public GameObject tilePrefab;
   public GameObject borderPrefab;
+  public int borderIndex = -1;
   static public Vector2 halfVec = Vector2.one / 2;
   private int size;
   private Dictionary <int, Sprite> sprites;
@@ -36,7 +37,6 @@ public class Level : MonoBehaviour
     int i, j; // iterators for the map
     int w = map.GetWidth ();
     int h = map.GetHeight ();
-    // TODO: don't compute this everytime
     GameObject layerObject = new GameObject ();
     layerObject.transform.parent = tilesObject;
     layerObject.transform.localScale = Vector3.one;
@@ -77,7 +77,6 @@ public class Level : MonoBehaviour
     Rect subRect = new Rect (x, y, size, size);
     GameObject go = Instantiate (tilePrefab) as GameObject;
     // assigning sub-sprite
-    //TODO : several tiles share the same sprite, no need to create it everytime
     SpriteRenderer sr = (SpriteRenderer)go.renderer;
     Sprite sp;
     if (! sprites.TryGetValue (tileIndex, out sp)) {
@@ -93,20 +92,26 @@ public class Level : MonoBehaviour
   void CreateBorder (int w, int h)
   {
     Transform borderContainer = transform.FindChild ("Border");
+    GameObject tile;
+    if (borderIndex >= 0) {
+      tile = CreateTile (borderIndex+1);
+    } else {
+      tile = Instantiate (borderPrefab) as GameObject;
+    }
+    tile.transform.name = "BorderTile";
     for (int x = -1; x <= w; x++) {
-      PlaceBorder (x, 0, borderContainer);
-      PlaceBorder (x, h + 1, borderContainer);
+      PlaceBorder (tile, x, 0, borderContainer);
+      PlaceBorder (tile, x, h + 1, borderContainer);
       int x1 = x + 1;
-      PlaceBorder (-1, x1, borderContainer);
-      PlaceBorder (w, x1, borderContainer);
+      PlaceBorder (tile, -1, x1, borderContainer);
+      PlaceBorder (tile, w, x1, borderContainer);
     }
   }
 
-  void PlaceBorder (float x, float y, Transform parent)
+  void PlaceBorder (GameObject origin, float x, float y, Transform parent)
   {
-    GameObject tile = Instantiate (borderPrefab) as GameObject;
+    GameObject tile = Instantiate (origin) as GameObject;
     tile.transform.parent = parent;
-    // TODO    
     //    tile.transform.isStatic = true;
     tile.transform.localScale = Vector3.one;
     tile.transform.localPosition = new Vector3 (x, y, 0);

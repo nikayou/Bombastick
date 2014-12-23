@@ -89,6 +89,7 @@ public class MatchLauncher : MonoBehaviour
     // creating level
     //level.transform.position = new Vector3 (levelScale.x, -levelScale.y, 0f);
     Level lvl = level.GetComponent<Level> ();
+    lvl.borderIndex = tileset.GetBorderIndex ();
     lvl.tileset = tileset;
     lvl.map = tilemap;
     lvl.Create ();

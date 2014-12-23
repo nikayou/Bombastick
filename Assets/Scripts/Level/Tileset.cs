@@ -11,6 +11,7 @@ public class Tileset
   private Dictionary <int, Tile> tiles;
   private int tileSize;
   private int tilesPerLine = 4;
+  private int borderIndex = -1; // index of the tile used for bounds
 
   public Tileset (string path)
   {
@@ -18,6 +19,7 @@ public class Tileset
     tileSize = 64;
     texture = new Texture2D (1, 1);
     LoadFromXML (path);
+    tilesPerLine = texture.width / tileSize;
     //CreateTiles ();
   }
 
@@ -43,8 +45,11 @@ public class Tileset
 
   public int GetTilesPerLine ()
   {
-    // TODO
     return tilesPerLine;
+  }
+
+  public int GetBorderIndex () {
+    return borderIndex;
   }
 
   public static Tileset LoadFromFile (string path)
@@ -55,7 +60,6 @@ public class Tileset
   public void LoadFromXML (string path)
   {
     // TODO: check errors with asserts
-    // TODO: compute width and height
     Debug.Log ("loading tileset " + path);
     XmlTextReader xtr = new XmlTextReader (path);    
     while (xtr.Read()) { 
@@ -67,6 +71,10 @@ public class Tileset
         string imgPath = string.Empty;
         if ((imgPath = xtr.GetAttribute ("image")) != null) {
           LoadTexture (imgPath);
+        }
+        string borderStr = string.Empty;
+        if ((borderStr = xtr.GetAttribute ("borderIndex")) != null) {
+          borderIndex = int.Parse (borderStr);
         }
       } else if (xtr.Name == "TILE") { 
         string _destructable, _blocking;
