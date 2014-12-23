@@ -10,11 +10,17 @@ public class MatchLauncher : MonoBehaviour {
   void Start () {
 	GameObject matchSettingsHolder; 
 	matchSettingsHolder = GameObject.FindGameObjectWithTag("GameController");
-	MatchSettings matchSettings = matchSettingsHolder.GetComponent<MatchSettings>(); 
-    SetMatch (matchSettings.matchType, matchSettings.duration);
-    LoadMap (matchSettings.levelName);
-	SetPlayers (matchSettings.playersColors);
-		//TODO: also set camera, considering border
+	if (matchSettingsHolder != null) {
+		MatchSettings matchSettings = matchSettingsHolder.GetComponent<MatchSettings>(); 
+    	SetMatch (matchSettings.matchType, matchSettings.duration);
+    	LoadMap (matchSettings.levelName);
+		SetPlayers (matchSettings.playersColors);
+	} else {
+			SetMatch (MatchType.TIMED, 180f);
+			LoadMap ("classic1.xml"); //TODO: load default map
+			SetPlayers (new Color[]{new Color(1,0,0,1), new Color(0,1,0,1), new Color(1,0,0,0), new Color(1,0,0,0)});
+	}
+	//TODO: also set camera, considering border
 	Destroy (matchSettingsHolder);
     Destroy(this);
   }
@@ -52,6 +58,7 @@ public class MatchLauncher : MonoBehaviour {
 		float h = tilemap.GetHeight() * halfTileSize;
 		float upper = h - halfTileSize;
 		float right = w - halfTileSize;
+		spawnPoint = new Vector3[4];
 		spawnPoint[0] = new Vector3(halfTileSize, upper, 0);
 		spawnPoint[1] = new Vector3(right, halfTileSize, 0);
 		spawnPoint[2] = new Vector3(halfTileSize, halfTileSize, 0);
