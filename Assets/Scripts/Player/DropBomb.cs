@@ -2,6 +2,7 @@
 using System.Collections;
 
 [RequireComponent (typeof(PlayerController))]
+[RequireComponent (typeof(AudioSource))]
 
 public class DropBomb : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class DropBomb : MonoBehaviour
   public float cooldown = 4.0f;
   private bool canBomb = true;
   private PlayerController myController;
+  public AudioClip sound;
 
   void Awake ()
   {
@@ -21,6 +23,7 @@ public class DropBomb : MonoBehaviour
   {
     if (canBomb && Input.GetButtonDown ("Fire" + myController.GetID ())) {
       GameObject newBomb = Instantiate (bombPrefab) as GameObject;
+      audio.PlayOneShot(sound);
       newBomb.transform.position = transform.position;
       //newBomb.transform.parent = transform;
       newBomb.transform.localScale = transform.lossyScale;

@@ -2,15 +2,18 @@
 using System.Collections;
 
 [RequireComponent (typeof(Collider2D))]
+[RequireComponent (typeof(AudioSource))]
 
 public class Explosion : MonoBehaviour
 {
 
   public float explosionTime = 1.0f;
   bool deathMatch = false;
+  public AudioClip[] sounds;
 
   void Start ()
   {
+    audio.PlayOneShot(sounds[Random.Range(0, sounds.Length)]);
     if (GameObject.Find ("MatchController").GetComponent<DeathMatch> () != null) {
       deathMatch = true;
     }

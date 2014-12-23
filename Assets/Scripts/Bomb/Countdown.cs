@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent (typeof(AudioSource))]
+
 public class Countdown : MonoBehaviour
 {
 
@@ -28,6 +30,7 @@ public class Countdown : MonoBehaviour
 
   void Explode ()
   {
+    audio.Stop();
     transform.Find ("Explosion").gameObject.SetActive (true);
   }
 
