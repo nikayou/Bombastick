@@ -74,7 +74,6 @@ public class MatchLauncher : MonoBehaviour
     // setting camera
     level.transform.localScale = Vector3.one * tileset.GetTileSize ();
     Vector3 levelScale = level.transform.localScale;
-    Debug.Log ("dimensions: " + tilemap.GetWidth () + "x" + tilemap.GetHeight () + " -> " + tileset.GetTileSize ());
     float halfTileSize = tileset.GetTileSize () / 2f;
     float camX = (tilemap.GetWidth () - 1f) * halfTileSize;
     float camY = (tilemap.GetHeight () + 1f) * halfTileSize;
@@ -82,10 +81,9 @@ public class MatchLauncher : MonoBehaviour
                                                   camY,
                                                   0);
     // orthographic size is the vertical size
-    float orthoV = tileset.GetTileSize() * ((2+tilemap.GetWidth ()) / 2f); // required size to display every row
-    float orthoH = tileset.GetTileSize() * ((2+tilemap.GetHeight ()) / 2f); // required size to display every column
-    float fixedOrthoV = (orthoV * Camera.main.aspect < orthoV)? orthoH * Camera.main.aspect:orthoV;
-    Debug.Log ("ratio : " + orthoH + "," + orthoV + " -> " + fixedOrthoV);
+    float orthoV = tileset.GetTileSize () * ((2 + tilemap.GetWidth ()) / 2f); // required size to display every row
+    float orthoH = tileset.GetTileSize () * ((2 + tilemap.GetHeight ()) / 2f); // required size to display every column
+    float fixedOrthoV = (orthoV * Camera.main.aspect < orthoV) ? orthoH * Camera.main.aspect : orthoV;
     //Camera.main.orthographicSize = Mathf.Max(orthoV, fixedOrthoV);
     Camera.main.orthographicSize = fixedOrthoV;
     // creating level

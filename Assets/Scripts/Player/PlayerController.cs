@@ -5,12 +5,14 @@ public class PlayerController : MonoBehaviour
 {
 
   public int playerID = 1;
-
   private Color _color;
+
   public Color color {
     get { return _color; }
-    set { _color = value;
-      Colorise (); }
+    set {
+      _color = value;
+      Colorise ();
+    }
   }
 
   private Respawn respawnScript;

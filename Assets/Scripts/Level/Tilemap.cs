@@ -27,7 +27,8 @@ public class Tilemap
     LoadFromXML (path);
   }
 
-  public string GetTileset() {
+  public string GetTileset ()
+  {
     return tilesetPath;
   }
 
@@ -38,35 +39,35 @@ public class Tilemap
     bool mapFound = false;
     while (xtr.Read()) {
       if (!mapFound && xtr.Name == "MAP") {
-	string widthString = string.Empty;
-	if ((widthString = xtr.GetAttribute ("width")) != null) {
-	  width = int.Parse (widthString);
-	}
-	string heightString = string.Empty;
-	if ((heightString = xtr.GetAttribute ("height")) != null) {
-	  height = int.Parse (heightString);
-	}
-	string layersString = string.Empty;
-	if ((layersString = xtr.GetAttribute ("nbLayers")) != null) {
-	  nbLayers = int.Parse (layersString);
-	}
-	nbPerLayer = width * height;
-	string tilesetString = string.Empty;
-	if ((tilesetString = xtr.GetAttribute ("tileset")) != null) {
-	  tilesetPath = tilesetString;
-	}
-	layers = new int [nbLayers * nbPerLayer];
-	mapFound = true;
+        string widthString = string.Empty;
+        if ((widthString = xtr.GetAttribute ("width")) != null) {
+          width = int.Parse (widthString);
+        }
+        string heightString = string.Empty;
+        if ((heightString = xtr.GetAttribute ("height")) != null) {
+          height = int.Parse (heightString);
+        }
+        string layersString = string.Empty;
+        if ((layersString = xtr.GetAttribute ("nbLayers")) != null) {
+          nbLayers = int.Parse (layersString);
+        }
+        nbPerLayer = width * height;
+        string tilesetString = string.Empty;
+        if ((tilesetString = xtr.GetAttribute ("tileset")) != null) {
+          tilesetPath = tilesetString;
+        }
+        layers = new int [nbLayers * nbPerLayer];
+        mapFound = true;
       } 
       if (mapFound && xtr.Name == "LAYER") {
-	xtr.Read ();
-	string layerStr = xtr.ReadContentAsString ().Replace (System.Environment.NewLine, "").Trim ();
-	string [] tilesStr = layerStr.Split ('-');
-	int size = tilesStr.Length;
-	for (int i = 0; i < size-1; i++) {
-	  layers [(layerIndex * nbPerLayer) + i] = int.Parse (tilesStr [i]);
-	}
-	layerIndex++;
+        xtr.Read ();
+        string layerStr = xtr.ReadContentAsString ().Replace (System.Environment.NewLine, "").Trim ();
+        string [] tilesStr = layerStr.Split ('-');
+        int size = tilesStr.Length;
+        for (int i = 0; i < size-1; i++) {
+          layers [(layerIndex * nbPerLayer) + i] = int.Parse (tilesStr [i]);
+        }
+        layerIndex++;
       }
     }
 
@@ -130,7 +131,7 @@ public class Tilemap
     int y = Random.Range(1, limit);
     if (!IsSpawn(x, y)) {
     map[x,y] = (Tile)(Random.Range(1, (int)Tile.NB));
-    //	map[x,y] = Tile.DESTRUCT;
+    // map[x,y] = Tile.DESTRUCT;
     }
     }
     }
