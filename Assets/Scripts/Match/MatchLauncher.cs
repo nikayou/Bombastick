@@ -7,6 +7,7 @@ public class MatchLauncher : MonoBehaviour
   public GameObject matchController;
   public GameObject level;
   public GameObject playerPrefab;
+  public Respawner respawner;
   public float playerScale = 0.75f;
   private Vector3[] spawnPoint;
 
@@ -70,9 +71,10 @@ public class MatchLauncher : MonoBehaviour
     spawnPoint [1] = new Vector3 (w, h, 0);
     spawnPoint [2] = new Vector3 (0f, h, 0);
     spawnPoint [3] = new Vector3 (w, 0.5f, 0);
+    respawner.AddRespawn(spawnPoint);
     // setting camera
     level.transform.localScale = Vector3.one * tileset.GetTileSize ();
-    Vector3 levelScale = level.transform.localScale;
+    //Vector3 levelScale = level.transform.localScale;
     float halfTileSize = tileset.GetTileSize () / 2f;
     float camX = (tilemap.GetWidth () - 1f) * halfTileSize;
     float camY = (tilemap.GetHeight () + 1f) * halfTileSize;
@@ -107,6 +109,8 @@ public class MatchLauncher : MonoBehaviour
         pc.color = colors [i];
         p.transform.localPosition = spawnPoint [i];
         p.transform.localScale = Vector3.one * playerScale;
+        p.GetComponent<Respawn>().respawner = respawner;
+        respawner.AddPlayer (p.transform, i);
       }
     }
   }

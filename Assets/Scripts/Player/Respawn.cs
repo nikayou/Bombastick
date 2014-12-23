@@ -7,14 +7,12 @@ public class Respawn : MonoBehaviour
 {
 
   public float respawnTime = 4.0f;
-  private Vector2 spawnLocation;
+  public Respawner respawner;
   private PlayerController myController;
   private bool launched = false;
 
   void Awake ()
   {
-//TODO: remove those 2 and compute nicely
-    spawnLocation = transform.localPosition;
     this.enabled = false;
   }
 
@@ -36,12 +34,12 @@ public class Respawn : MonoBehaviour
   {
     launched = true;
     yield return new WaitForSeconds (respawnTime);
-    RespawnAt (spawnLocation);
+    RespawnAt (respawner.GetSpawnFor(myController.GetID()));
   }
 
   void RespawnAt (Vector2 location)
   {
-    transform.position = location;
+    transform.localPosition = location;
     myController.SetLife (true);
     launched = false;
     this.enabled = false;

@@ -86,8 +86,6 @@ public class Tilemap
     // Assert (x < width);
     // Assert (y < height);
     // Assert (layerIndex < nbLayers);
-    int id = (layerIndex * nbPerLayer) + CoordinatesToIndex (x, y);
-    int res = layers [id];
     return layers [(layerIndex * nbPerLayer) + CoordinatesToIndex (x, y)];
   }
 
