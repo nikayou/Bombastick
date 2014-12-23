@@ -64,12 +64,12 @@ public class MatchLauncher : MonoBehaviour
     Tileset tileset = new Tileset (WWW.EscapeURL ("Levels/Tilesets/" + tilemap.GetTileset ()));
     // computing spawn points
     float w = tilemap.GetWidth () - 0.5f; // w*(s/2) is the same as (w*s)/2
-    float h = tilemap.GetHeight () - 0.5f;
+    float h = tilemap.GetHeight () + 0.5f;
     spawnPoint = new Vector3[4];
-    spawnPoint [0] = new Vector3 (0.5f, h, 0);
-    spawnPoint [1] = new Vector3 (w, 0.5f, 0);
-    spawnPoint [2] = new Vector3 (0.5f, 0.5f, 0);
-    spawnPoint [3] = new Vector3 (w, h, 0);
+    spawnPoint [0] = new Vector3 (0f, 0.5f, 0);
+    spawnPoint [1] = new Vector3 (w, h, 0);
+    spawnPoint [2] = new Vector3 (0f, h, 0);
+    spawnPoint [3] = new Vector3 (w, 0.5f, 0);
     // setting camera
     level.transform.localScale = Vector3.one * tileset.GetTileSize ();
     Vector3 levelScale = level.transform.localScale;
@@ -101,10 +101,11 @@ public class MatchLauncher : MonoBehaviour
         continue;
       } else {
         GameObject p = Instantiate (playerPrefab) as GameObject;
+        p.transform.name = "Player" + (i + 1);
+        p.transform.parent = level.transform;
         PlayerController pc = p.GetComponent<PlayerController> ();
         pc.color = colors [i];
-        p.transform.position = spawnPoint [i];
-        p.transform.parent = level.transform;
+        p.transform.localPosition = spawnPoint [i];
         p.transform.localScale = Vector3.one * playerScale;
       }
     }

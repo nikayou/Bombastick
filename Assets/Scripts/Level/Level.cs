@@ -85,9 +85,7 @@ public class Level : MonoBehaviour
       sprites.Add (tileIndex, sp);
     }
     sr.sprite = sp;
-    // TODO: colliders and destruction
     go.collider2D.isTrigger = !tile.blocking;
-    Debug.Log ("blocking: "+tile.blocking+" -> "+!go.collider2D.isTrigger);
     if (tile.destructable) {
       go.transform.tag = "Destructable";
     }

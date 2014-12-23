@@ -5,7 +5,6 @@ using System.Collections;
 public class MatchMenu : MonoBehaviour
 {
 
-  private MatchOptions matchOptions;
   private MatchType matchType = MatchType.TIMED;
   public MenuManager menuManager;
   public Menu backMenu;

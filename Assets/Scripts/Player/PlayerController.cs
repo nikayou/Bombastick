@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
     renderer.material.color = color;
     myEyes = transform.Find ("Eyes").gameObject;
     respawnScript = GetComponent<Respawn> ();
+    dropBombScript = GetComponent<DropBomb> ();
   }
 
   void Start ()

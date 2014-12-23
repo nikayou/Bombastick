@@ -14,7 +14,7 @@ public class Respawn : MonoBehaviour
   void Awake ()
   {
 //TODO: remove those 2 and compute nicely
-    spawnLocation = transform.position;
+    spawnLocation = transform.localPosition;
     this.enabled = false;
   }
 

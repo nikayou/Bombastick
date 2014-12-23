@@ -88,7 +88,6 @@ public class Tileset
         }
         if ((_blocking = xtr.GetAttribute ("blocking")) != null) {
           blocking = bool.Parse (_blocking);
-          Debug.Log ("tile "+tileIndex+" -> "+blocking);
         }
         Tile tile = new Tile (blocking, destructable);
         tiles.Add (int.Parse (tileIndex), tile);
