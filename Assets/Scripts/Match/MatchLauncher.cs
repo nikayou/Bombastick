@@ -106,6 +106,7 @@ public class MatchLauncher : MonoBehaviour
         p.transform.name = "Player" + (i + 1);
         p.transform.parent = level.transform;
         PlayerController pc = p.GetComponent<PlayerController> ();
+        pc.SetID(i+1);
         pc.color = colors [i];
         p.transform.localPosition = spawnPoint [i];
         p.transform.localScale = Vector3.one * playerScale;

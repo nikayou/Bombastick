@@ -40,6 +40,10 @@ public class PlayerController : MonoBehaviour
     return playerID;
   }
 
+  public void SetID (int i) {
+    playerID = (i<0)?0:i;
+  }
+
   public void SetLife (bool val = true)
   {
     respawnScript.enabled = !val;
