@@ -7,6 +7,7 @@ using System.Collections;
 public class DropBomb : MonoBehaviour
 {
 
+  public Transform level;
   public GameObject bombPrefab;
   public float cooldown = 4.0f;
   public bool canBomb = true;
@@ -23,10 +24,10 @@ public class DropBomb : MonoBehaviour
   {
     if (canBomb && Input.GetButtonDown ("Fire" + myController.GetID ())) {
       GameObject newBomb = Instantiate (bombPrefab) as GameObject;
+      newBomb.transform.parent = level;
       audio.PlayOneShot(sound);
-      newBomb.transform.position = transform.position;
-      //newBomb.transform.parent = transform;
-      newBomb.transform.localScale = transform.lossyScale;
+      newBomb.transform.localPosition = transform.localPosition;
+      newBomb.transform.localScale = transform.localScale;
       StartCoroutine (SetCooldown ());
     }
   }

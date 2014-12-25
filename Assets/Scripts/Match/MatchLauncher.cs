@@ -112,6 +112,7 @@ public class MatchLauncher : MonoBehaviour
         p.transform.localScale = Vector3.one * playerScale;
         p.GetComponent<Respawn>().respawner = respawner;
         respawner.AddPlayer (p.transform, i);
+        p.GetComponent<DropBomb>().level = level.transform;
       }
     }
   }

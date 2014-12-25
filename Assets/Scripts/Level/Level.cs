@@ -86,6 +86,9 @@ public class Level : MonoBehaviour
     }
     sr.sprite = sp;
     go.collider2D.isTrigger = !tile.blocking;
+    if (tile.blocking) {
+      go.transform.tag = "Block";
+    }
     if (tile.destructable) {
       go.transform.tag = "Destructable";
     }
