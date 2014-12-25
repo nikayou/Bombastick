@@ -27,7 +27,6 @@ public class Explosion : MonoBehaviour
   void Update ()
   {
     //TODO: more rays, those only start from the center, we also need upper/lower
-    //TODO: in that case, make the bomb spawn in the middle of the tile
     RaycastTo (Vector2.up);
     RaycastTo (-Vector2.up);
     RaycastTo (Vector2.right);
@@ -39,11 +38,9 @@ public class Explosion : MonoBehaviour
     RaycastHit2D [] hits = Physics2D.RaycastAll (transform.position, direction, range * scale, mask);
     Debug.DrawLine (transform.position, transform.position + ((Vector3)direction * range * scale), Color.green);
     foreach (RaycastHit2D hit in hits) {
-      Debug.Log ("hit " + hit.collider.gameObject.name);
       if (hit.collider.gameObject.tag != "Block") {
         // visual effect of fire
         if (hit.collider.gameObject.tag == "Player") {
-          // TODO: check if deads can be killed
           KillPlayer (hit.collider.gameObject);
         } else if (hit.collider.gameObject.tag == "Destructable") {
           DestroyTile (hit.collider.gameObject);
