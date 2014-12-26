@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using XboxCtrlrInput;
 
 [RequireComponent (typeof(PlayerController))]
 [RequireComponent (typeof(AudioSource))]
@@ -22,7 +23,8 @@ public class DropBomb : MonoBehaviour
   // Update is called once per frame
   void Update ()
   {
-    if (canBomb && Input.GetButtonDown ("Fire" + myController.GetID ())) {
+    int id = myController.GetID ();
+    if (canBomb && (Input.GetButtonDown ("Fire" + id) || XCI.GetButtonDown(XboxButton.A, id))) {
       GameObject newBomb = Instantiate (bombPrefab) as GameObject;
       newBomb.transform.parent = level;
       audio.PlayOneShot(sound);

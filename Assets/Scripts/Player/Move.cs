@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using XboxCtrlrInput;
 
 [RequireComponent (typeof(Rigidbody2D))]
 [RequireComponent (typeof(PlayerController))]
@@ -21,8 +22,9 @@ public class Move : MonoBehaviour
   // Update is called once per frame
   void Update ()
   {
-    float x = Input.GetAxis ("Horizontal" + myController.GetID ());
-    float y = Input.GetAxis ("Vertical" + myController.GetID ());
+    int id = myController.GetID ();
+    float x = UnsignedCmp.Max (Input.GetAxis ("Horizontal" + myController.GetID ()), XCI.GetAxis (XboxAxis.LeftStickX, id));
+    float y = UnsignedCmp.Max (Input.GetAxis ("Vertical" + myController.GetID ()), XCI.GetAxis (XboxAxis.LeftStickY, id));
     destination = (new Vector2 (x, y).normalized) * speed;
   }
 
