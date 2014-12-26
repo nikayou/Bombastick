@@ -22,11 +22,8 @@ public class Explosion : MonoBehaviour
       deathMatch = true;
     }
     Destroy (transform.parent.gameObject, explosionTime);
-  }
-
-  void Update ()
-  {
     //TODO: more rays, those only start from the center, we also need upper/lower
+    //Note: those additional rays can take account of the player only 
     RaycastTo (Vector2.up);
     RaycastTo (-Vector2.up);
     RaycastTo (Vector2.right);
@@ -35,16 +32,20 @@ public class Explosion : MonoBehaviour
 
   void RaycastTo (Vector2 direction)
   {
-    RaycastHit2D [] hits = Physics2D.RaycastAll (transform.position, direction, range * scale, mask);
-    Debug.DrawLine (transform.position, transform.position + ((Vector3)direction * range * scale), Color.green);
+    float distance = range * scale;
+    RaycastHit2D [] hits = Physics2D.RaycastAll (transform.position, direction, distance, mask);
+    Debug.DrawLine (transform.position, transform.position + ((Vector3)direction * distance), Color.green);
     foreach (RaycastHit2D hit in hits) {
-      if (hit.collider.gameObject.tag != "Block") {
+      if (hit.collider.gameObject.tag == "Block") {
+        break;
+      } else {
         // visual effect of fire
-        if (hit.collider.gameObject.tag == "Player") {
-          KillPlayer (hit.collider.gameObject);
-        } else if (hit.collider.gameObject.tag == "Destructable") {
+       if (hit.collider.gameObject.tag == "Destructable") {
           DestroyTile (hit.collider.gameObject);
-        }
+          break;
+        } else if (hit.collider.gameObject.tag == "Player") {
+          KillPlayer (hit.collider.gameObject);
+        } 
       }
     }
   }
@@ -62,22 +63,5 @@ public class Explosion : MonoBehaviour
   {
     Destroy (tile);
   }
-
-  /*
-  void OnTriggerEnter2D (Collider2D other)
-  {
-    if (other.transform.tag == "Destructable") {
-      Destroy (other.gameObject);
-    } else if (other.transform.tag == "Player") {
-      //      Destroy(other.gameObject);
-      //      Camera.main.GetComponent<EndMatch>().End();
-      other.gameObject.SendMessage ("SetLife", false);
-      if (deathMatch) { 
-        // TODO: suicide and kill count
-        other.gameObject.SendMessage ("AddScore", -1);
-      }
- 
-    }
-  }*/
 
 }
