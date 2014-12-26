@@ -20,6 +20,7 @@ public class Explosion : MonoBehaviour
 
   void Start ()
   {
+    transform.localScale = transform.localScale * range;
     range += 0.475f;
     mask = 1 << mask;
     Vector2 two = Vector2.one * 2f;
