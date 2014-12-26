@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using XboxCtrlrInput;
 
 public class PlayersMenu : MonoBehaviour
 {
@@ -132,18 +133,18 @@ public class PlayersMenu : MonoBehaviour
   {
     for (int i = 0; i < 4; i++) {
       int j = i + 1;
-      if (Input.GetButtonDown ("Fire" + j)) {
+      if (Input.GetButtonDown ("Fire" + j) || XCI.GetButtonDown(XboxButton.A, j)) {
         if (players [i].PressOK ())
           TryNext ();
         players [i].Colorise (possibleColors [players [i].colorIndex]);
       } 
-      if (Input.GetButtonDown ("Cancel" + j)) {
+      if (Input.GetButtonDown ("Cancel" + j) || XCI.GetButtonDown(XboxButton.B, j)|| XCI.GetButtonDown(XboxButton.X, j)) {
         if (players [i].PressBack ())
           TryBack ();
         players [i].Colorise (possibleColors [players [i].colorIndex]);
       } 
       if (players [i].status == playerState.JOINED) {
-        float y = Input.GetAxis ("Vertical" + j);
+        float y = UnsignedCmp.Max(Input.GetAxis ("Vertical" + j), XCI.GetAxis(XboxAxis.LeftStickY, j));
         if (Mathf.Abs (y) < 0.5f) {
           up [i] = down [i] = false;
         } else if (y <= -0.5f) {
