@@ -75,9 +75,11 @@ public class MatchLauncher : MonoBehaviour
     // setting camera
     level.transform.localScale = Vector3.one * tileset.GetTileSize ();
     //Vector3 levelScale = level.transform.localScale;
+    float pixelLevelWidth = tileset.GetTileSize () * tilemap.GetWidth ();
     float halfTileSize = tileset.GetTileSize () / 2f;
-    float camX = (tilemap.GetWidth () - 1f) * halfTileSize;
+    //float camX = (tilemap.GetWidth () - 1f) * halfTileSize;
     float camY = (tilemap.GetHeight () + 1f) * halfTileSize;
+    float camX = camY/2f; // TODO: test this with different resolutions and maps
     Camera.main.transform.position = new Vector3 (camX,
                                                   camY,
                                                   0);
