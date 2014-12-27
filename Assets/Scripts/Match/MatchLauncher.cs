@@ -6,6 +6,7 @@ public class MatchLauncher : MonoBehaviour
 {
 
   public GameObject matchController;
+  private MatchController control;
   public GameObject level;
   public GameObject playerPrefab;
   public Respawner respawner;
@@ -48,27 +49,31 @@ public class MatchLauncher : MonoBehaviour
       TimedMatch tm = matchController.GetComponent<TimedMatch> ();
       tm.Reset (duration);
       tm.timeLabel = timeText;
+      control = tm;
     }
     if (matchType != MatchType.TARGET) {
       Destroy (matchController.GetComponent<TargetMatch> ());
     } else {
       modeText.text = "Target time match";
-      matchController.GetComponent<TargetMatch> ().timeLabel = timeText;
-      matchController.GetComponent<TargetMatch> ().Reset (duration);
+      control = matchController.GetComponent<TargetMatch> ();
+      control.timeLabel = timeText;
+      ((TimedMatch)control).Reset (duration);
     }
     if (matchType != MatchType.LAST_MAN) {
       Destroy (matchController.GetComponent<LastManMatch> ());
     } else {
       modeText.text = "Last man keeping";
-      matchController.GetComponent<LastManMatch> ().timeLabel = timeText;
-      matchController.GetComponent<LastManMatch> ().Reset (duration);
+      control = matchController.GetComponent<LastManMatch> ();
+      control.timeLabel = timeText;
+      ((LastManMatch)control).Reset (duration);
     }
     if (matchType != MatchType.DEATH) {
       Destroy (matchController.GetComponent<DeathMatch> ());
     } else {
       modeText.text = "DeathMatch";
-      matchController.GetComponent<DeathMatch> ().timeLabel = timeText;
-      matchController.GetComponent<DeathMatch> ().Reset (duration);
+      control = matchController.GetComponent<DeathMatch> ();
+      control.timeLabel = timeText;
+      ((DeathMatch)control).Reset (duration);
     }
   }
 
@@ -132,6 +137,7 @@ public class MatchLauncher : MonoBehaviour
         GameObject uiPanel = uiCanvas.Find("PlayerPanel"+j).gameObject;
         uiPanel.GetComponent<MatchPlayerUI>().player = pc;
         uiPanel.GetComponent<Image>().color = pc.color;
+        control.AddPlayer(pc);
       }
     }
   }

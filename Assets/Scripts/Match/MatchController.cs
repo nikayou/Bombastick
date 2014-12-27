@@ -19,6 +19,10 @@ public class MatchController : MonoBehaviour
     }    
   }
 
+  public void AddPlayer (PlayerController pc) {
+    players.Add (pc);
+  }
+
   /*
    * Add to the player with the given index, the given amount of score
    */
@@ -48,7 +52,6 @@ public class MatchController : MonoBehaviour
     bool draw = true;
     bool madeOne = false;
     foreach (PlayerController pc in players) {
-      Debug.Log ("winner: " + winner + "/" + players.Count);
       float winnerScore = players [winner - 1].GetScore ();
       if (pc.GetScore () > winnerScore) {
         draw = false;
