@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class MatchLauncher : MonoBehaviour
@@ -8,6 +9,7 @@ public class MatchLauncher : MonoBehaviour
   public GameObject level;
   public GameObject playerPrefab;
   public Respawner respawner;
+  public Transform uiCanvas;
   public float playerScale = 0.75f;
   private Vector3[] spawnPoint;
 
@@ -36,25 +38,36 @@ public class MatchLauncher : MonoBehaviour
 
   void SetMatch (MatchType matchType, float duration)
   {
+    GameObject matchPanel = uiCanvas.FindChild("MatchPanel").gameObject;
+    Text modeText = matchPanel.transform.FindChild("TypeText").GetComponent<Text>();
+    Text timeText = matchPanel.transform.FindChild("TimeText").GetComponent<Text>();
     if (matchType != MatchType.TIMED) {
       Destroy (matchController.GetComponent<TimedMatch> ());
     } else {
+      modeText.text = "Best time match";
       TimedMatch tm = matchController.GetComponent<TimedMatch> ();
       tm.Reset (duration);
+      tm.timeLabel = timeText;
     }
     if (matchType != MatchType.TARGET) {
       Destroy (matchController.GetComponent<TargetMatch> ());
     } else {
+      modeText.text = "Target time match";
+      matchController.GetComponent<TargetMatch> ().timeLabel = timeText;
       matchController.GetComponent<TargetMatch> ().Reset (duration);
     }
     if (matchType != MatchType.LAST_MAN) {
       Destroy (matchController.GetComponent<LastManMatch> ());
     } else {
+      modeText.text = "Last man keeping";
+      matchController.GetComponent<LastManMatch> ().timeLabel = timeText;
       matchController.GetComponent<LastManMatch> ().Reset (duration);
     }
     if (matchType != MatchType.DEATH) {
       Destroy (matchController.GetComponent<DeathMatch> ());
     } else {
+      modeText.text = "DeathMatch";
+      matchController.GetComponent<DeathMatch> ().timeLabel = timeText;
       matchController.GetComponent<DeathMatch> ().Reset (duration);
     }
   }
@@ -75,7 +88,6 @@ public class MatchLauncher : MonoBehaviour
     // setting camera
     level.transform.localScale = Vector3.one * tileset.GetTileSize ();
     //Vector3 levelScale = level.transform.localScale;
-    float pixelLevelWidth = tileset.GetTileSize () * tilemap.GetWidth ();
     float halfTileSize = tileset.GetTileSize () / 2f;
     //float camX = (tilemap.GetWidth () - 1f) * halfTileSize;
     float camY = (tilemap.GetHeight () + 1f) * halfTileSize;
@@ -102,19 +114,24 @@ public class MatchLauncher : MonoBehaviour
     for (int i = 0; i < colors.Length; i++) {
       if (colors [i].a == 0f) {
         // no color for this player = no player
+        uiCanvas.FindChild("PlayerPanel"+(i+1)).gameObject.SetActive(false);
         continue;
       } else {
+        int j = i+1;
         GameObject p = Instantiate (playerPrefab) as GameObject;
-        p.transform.name = "Player" + (i + 1);
+        p.transform.name = "Player" + j;
         p.transform.parent = level.transform;
         PlayerController pc = p.GetComponent<PlayerController> ();
-        pc.SetID(i+1);
+        pc.SetID(j);
         pc.color = colors [i];
         p.transform.localPosition = spawnPoint [i];
         p.transform.localScale = Vector3.one * playerScale;
         p.GetComponent<Respawn>().respawner = respawner;
         respawner.AddPlayer (p.transform, i);
         p.GetComponent<DropBomb>().level = level.transform;
+        GameObject uiPanel = uiCanvas.Find("PlayerPanel"+j).gameObject;
+        uiPanel.GetComponent<MatchPlayerUI>().player = pc;
+        uiPanel.GetComponent<Image>().color = pc.color;
       }
     }
   }

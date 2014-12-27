@@ -12,6 +12,8 @@ public class TargetMatch : MatchController
     foreach (PlayerController pc in players) {
       pc.AddScore (targetTime);
     }    
+    if (timeLabel)
+      timeLabel.text = ""+targetTime;
   }
 
   void Update ()
@@ -29,6 +31,8 @@ public class TargetMatch : MatchController
   public void Reset (float t)
   {
     targetTime = t;
+    if (timeLabel)
+      timeLabel.text = ""+targetTime;
     ResetScore (t);
   }
 

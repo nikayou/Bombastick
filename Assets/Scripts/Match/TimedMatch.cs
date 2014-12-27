@@ -17,6 +17,8 @@ public class TimedMatch : MatchController
   {
     timer -= Time.deltaTime;
     AddScoreToOwner (Time.deltaTime);
+    if (timeLabel)
+      timeLabel.text = "" + Mathf.RoundToInt (timer);
     if (timer <= 0f) {
       End ();
     }

@@ -16,6 +16,8 @@ public class DeathMatch : MatchController
   void Update ()
   {
     timer -= Time.deltaTime;
+    if (timeLabel)
+      timeLabel.text = "" + Mathf.RoundToInt (timer);
     if (timer <= 0f) {
       End ();
     } 

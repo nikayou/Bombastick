@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -8,6 +9,7 @@ public class MatchController : MonoBehaviour
 {
   
   protected List<PlayerController> players;
+  public Text timeLabel;
 
   protected virtual void Start ()
   {

@@ -16,6 +16,8 @@ public class LastManMatch : MatchController
   {
     AddScoreToOwner ();
     timer -= Time.deltaTime;
+    if (timeLabel)
+      timeLabel.text = "" + Mathf.RoundToInt (timer);
     if (timer <= 0f) {
       End ();
     }
