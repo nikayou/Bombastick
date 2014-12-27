@@ -82,13 +82,13 @@ public class MatchLauncher : MonoBehaviour
     Tilemap tilemap = new Tilemap (WWW.EscapeURL ("Levels/" + name));
     Tileset tileset = new Tileset (WWW.EscapeURL ("Levels/Tilesets/" + tilemap.GetTileset ()));
     // computing spawn points
-    float w = tilemap.GetWidth () - 0.5f; // w*(s/2) is the same as (w*s)/2
-    float h = tilemap.GetHeight () + 0.5f;
+    float w = tilemap.GetWidth () - 1f; // w*(s/2) is the same as (w*s)/2
+    float h = tilemap.GetHeight ();
     spawnPoint = new Vector3[4];
-    spawnPoint [0] = new Vector3 (0f, 0.5f, 0);
+    spawnPoint [0] = new Vector3 (0f, 1f, 0);
     spawnPoint [1] = new Vector3 (w, h, 0);
     spawnPoint [2] = new Vector3 (0f, h, 0);
-    spawnPoint [3] = new Vector3 (w, 0.5f, 0);
+    spawnPoint [3] = new Vector3 (w, 1f, 0);
     respawner.AddRespawn(spawnPoint);
     // setting camera
     level.transform.localScale = Vector3.one * tileset.GetTileSize ();
