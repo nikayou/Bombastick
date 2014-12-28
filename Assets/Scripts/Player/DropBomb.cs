@@ -28,7 +28,7 @@ public class DropBomb : MonoBehaviour
       GameObject newBomb = Instantiate (bombPrefab) as GameObject;
       newBomb.transform.parent = level;
       audio.PlayOneShot(sound);
-      newBomb.transform.localPosition = transform.localPosition;
+      newBomb.transform.localPosition = transform.localPosition + (transform.right / 5f);
       newBomb.transform.localScale = transform.localScale;
       StartCoroutine (SetCooldown ());
     }
