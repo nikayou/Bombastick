@@ -4,7 +4,7 @@ using System.Collections;
 public class LastManMatch : MatchController
 {
 
-  void Update ()
+  protected override void Update ()
   {
     base.Update();
     AddScoreToOwner ();

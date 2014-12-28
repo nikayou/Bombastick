@@ -57,19 +57,13 @@ public class Explosion : MonoBehaviour
   {
     float distance = range * scale;
     RaycastHit2D [] hits = Physics2D.RaycastAll (transform.position, direction, distance, mask);
-    Debug.DrawLine (transform.position, transform.position + ((Vector3)direction * distance), Color.green);
-    float maxDistance = Mathf.Infinity;
-    int shift = 1;
     foreach (RaycastHit2D hit in hits) {
       if (hit.collider.gameObject.tag == "Block") {
         break;
       } else {
         // visual effect of fire
-        //PutFire (hit.collider.transform.position + (Vector3)direction * shift * scale);
         PutFire (hit.collider.transform.position);
         if (hit.collider.gameObject.tag == "Destructable") { 
-          if (hit.distance < maxDistance) 
-              maxDistance = hit.distance;
           DestroyTile (hit.collider.gameObject);
           break;
         } else if (hit.collider.gameObject.tag == "Player") {
