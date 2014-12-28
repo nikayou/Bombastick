@@ -48,6 +48,9 @@ public class PlayerController : MonoBehaviour
 
   public void SetLife (bool val)
   {
+    if (!val) {
+
+    }
     this.renderer.enabled = val;
     myEyes.renderer.enabled = val;
     this.collider2D.enabled = val;

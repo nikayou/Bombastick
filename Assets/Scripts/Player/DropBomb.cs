@@ -13,11 +13,13 @@ public class DropBomb : MonoBehaviour
   public float cooldown = 4.0f;
   public bool canBomb = true;
   private PlayerController myController;
+  private Respawn respawn; // if active, won't allow bombing
   public AudioClip sound;
 
   void Awake ()
   {
     myController = GetComponent<PlayerController> ();
+    respawn = GetComponent<Respawn>();
   }
 
   // Update is called once per frame
@@ -39,7 +41,8 @@ public class DropBomb : MonoBehaviour
   {
     canBomb = false;
     yield return new WaitForSeconds (cooldown);
-    canBomb = true;
+    if (!respawn.enabled)
+      canBomb = true;
   }
 
 }
