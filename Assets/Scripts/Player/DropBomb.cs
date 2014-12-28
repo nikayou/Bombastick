@@ -30,6 +30,7 @@ public class DropBomb : MonoBehaviour
       audio.PlayOneShot(sound);
       newBomb.transform.localPosition = transform.localPosition + (transform.right / 5f);
       newBomb.transform.localScale = transform.localScale;
+      newBomb.transform.FindChild("Explosion").GetComponent<Explosion>().sender = myController;
       StartCoroutine (SetCooldown ());
     }
   }

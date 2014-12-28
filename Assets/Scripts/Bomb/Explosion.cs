@@ -10,6 +10,7 @@ public class Explosion : MonoBehaviour
   public float explosionTime = 1.0f;
   bool deathMatch = false;
   public AudioClip[] sounds;
+  public PlayerController sender;
   public float scale = 64f;
   public float range = 1f;
   public int mask = 8;
@@ -38,7 +39,8 @@ public class Explosion : MonoBehaviour
     Raycasting ();
   }
 
-  void Raycasting () {
+  void Raycasting ()
+  {
     RaycastForPlayers (Vector2.up, leftLine);
     RaycastForPlayers (Vector2.up, rightLine);
     RaycastTo (Vector2.up);    
@@ -84,25 +86,30 @@ public class Explosion : MonoBehaviour
       } else if (hit.collider.gameObject.tag == "Destructable") {
         break;
       } else if (hit.collider.gameObject.tag == "Player") {
-          KillPlayer (hit.collider.gameObject);
+        KillPlayer (hit.collider.gameObject);
       }
     }
   }
 
-  void PutFire (Vector3 position) {
-    GameObject fire = Instantiate(firePrefab) as GameObject;
+  void PutFire (Vector3 position)
+  {
+    GameObject fire = Instantiate (firePrefab) as GameObject;
     fire.transform.parent = level;
-   // fire.transform.localScale = Vector3.one;
+    // fire.transform.localScale = Vector3.one;
     fire.transform.position = position;
     Destroy (fire, explosionTime);
   }
 
   void KillPlayer (GameObject player)
   {
-    player.SendMessage ("SetLife", false);
+    PlayerController target = player.GetComponent<PlayerController> ();
+    target.SetLife (false);
     if (deathMatch) { 
-      // TODO: suicide and kill count
-      player.SendMessage ("AddScore", -1);
+      if (sender.playerID == target.playerID) {
+        sender.AddScore (-1);
+      } else {
+        sender.AddScore (1);
+      }
     }
   }
 
