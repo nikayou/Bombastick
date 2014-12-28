@@ -7,10 +7,8 @@ It is currently under developpement.
 
 ## TODO list
 
-- fix respawn (currently respawning anywhere)
-- collisions player-bomb (players are moved when dropping a bomb -> annoying)
 - results menu and chaining matches
-- real explosion effect (showing exactly what is affected by the explosion)
+- power up?
 - test, test, test (with different levels and resolutions)
 
 ## How to play
