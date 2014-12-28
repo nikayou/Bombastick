@@ -1,6 +1,9 @@
-/*#
-/*~
-/*.bak
+*#
+*~
+*.bak
+Bombastick*_Data/
+*.exe
+*.svg
 
 [Ll]ibrary/
 [Tt]emp/
@@ -19,5 +22,3 @@
 
 #Unity3D Generated File On Crash Reports
 sysinfo.txt
-res/title.svg
-*~
