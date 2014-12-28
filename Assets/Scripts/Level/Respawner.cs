@@ -28,20 +28,24 @@ public class Respawner : MonoBehaviour
     players [index] = player;
   }
 
-  public Vector3 GetSpawnFor (int index)
+  public Vector3 GetSpawnFor (int _index)
   {
+    int index = _index - 1;
     int maxSpawn = 0;
     float maxDistance = 0f;
-    for (int j = 0; j < 4; j++) {
+    float spawnCount = spawnPoints.Length;
+    float playersCount = players.Length;
+    for (int j = 0; j < spawnCount; j++) {
       // iteration through spawnpoints
       float distance = 0f;
-      for (int i = 0; i < 4; i++) {
+      for (int i = 0; i < playersCount; i++) {
         // iteration through players
         if (i == index || players[i] == null) {
           continue;
         } else {
-          float x = (players [i].localPosition.x - spawnPoints [j].x);
-          float y = (players [i].localPosition.y - spawnPoints [j].y);
+          float x = (players [i].localPosition.x - spawnPoints[j].x);
+          float y = (players [i].localPosition.y - spawnPoints[j].y);
+          // pythagore computes the distance
           distance += Mathf.Sqrt(Mathf.Pow(x, 2f) + Mathf.Pow(y, 2f));
         }
       }
