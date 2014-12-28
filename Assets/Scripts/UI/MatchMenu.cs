@@ -9,7 +9,7 @@ public class MatchMenu : MonoBehaviour
   public MenuManager menuManager;
   public Menu backMenu;
   public Menu nextMenu;
-  public float duration;
+  public float duration = 180f;
   public Text durationSelect;
   public Text modeSelect;
   public MatchSettings matchSettings;
@@ -20,6 +20,7 @@ public class MatchMenu : MonoBehaviour
   void Start ()
   {
     UpdateMode ();
+    UpdateDuration (duration);
   }
 
   public void NextMode ()

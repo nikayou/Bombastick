@@ -19,7 +19,9 @@ public class MatchController : MonoBehaviour
     players = new List<PlayerController> ();
     foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player")) {
       players.Add (p.GetComponent<PlayerController> ());
-    }    
+    }
+    if (timeLabel)
+      timeLabel.text = "" + Mathf.RoundToInt (timer);
   }
 
   protected virtual void Update ()
