@@ -5,7 +5,8 @@ using System.Collections;
 
 public class Explosion : MonoBehaviour
 {
-
+  public GameObject firePrefab;
+  private Transform level;
   public float explosionTime = 1.0f;
   bool deathMatch = false;
   public AudioClip[] sounds;
@@ -19,6 +20,7 @@ public class Explosion : MonoBehaviour
 
   void Start ()
   {
+    level = GameObject.Find ("Level").transform;
     transform.localScale = transform.localScale * range;
     range += 0.475f;
     mask = 1 << mask;
@@ -32,6 +34,7 @@ public class Explosion : MonoBehaviour
       deathMatch = true;
     }
     Destroy (transform.parent.gameObject, explosionTime);
+    PutFire (transform.position);
     Raycasting ();
   }
 
@@ -55,12 +58,18 @@ public class Explosion : MonoBehaviour
     float distance = range * scale;
     RaycastHit2D [] hits = Physics2D.RaycastAll (transform.position, direction, distance, mask);
     Debug.DrawLine (transform.position, transform.position + ((Vector3)direction * distance), Color.green);
+    float maxDistance = Mathf.Infinity;
+    int shift = 1;
     foreach (RaycastHit2D hit in hits) {
       if (hit.collider.gameObject.tag == "Block") {
         break;
       } else {
         // visual effect of fire
-       if (hit.collider.gameObject.tag == "Destructable") {
+        //PutFire (hit.collider.transform.position + (Vector3)direction * shift * scale);
+        PutFire (hit.collider.transform.position);
+        if (hit.collider.gameObject.tag == "Destructable") { 
+          if (hit.distance < maxDistance) 
+              maxDistance = hit.distance;
           DestroyTile (hit.collider.gameObject);
           break;
         } else if (hit.collider.gameObject.tag == "Player") {
@@ -75,7 +84,6 @@ public class Explosion : MonoBehaviour
     float distance = range * scale;
     Vector2 origin = (Vector2)transform.position + shift;
     RaycastHit2D [] hits = Physics2D.RaycastAll (origin, direction, distance, mask);
-    Debug.DrawLine (origin, origin + (direction * distance), Color.cyan);
     foreach (RaycastHit2D hit in hits) {
       if (hit.collider.gameObject.tag == "Block") {
         break;
@@ -85,6 +93,14 @@ public class Explosion : MonoBehaviour
           KillPlayer (hit.collider.gameObject);
       }
     }
+  }
+
+  void PutFire (Vector3 position) {
+    GameObject fire = Instantiate(firePrefab) as GameObject;
+    fire.transform.parent = level;
+   // fire.transform.localScale = Vector3.one;
+    fire.transform.position = position;
+    Destroy (fire, explosionTime);
   }
 
   void KillPlayer (GameObject player)
