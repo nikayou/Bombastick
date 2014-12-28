@@ -4,23 +4,10 @@ using System.Collections;
 public class LastManMatch : MatchController
 {
 
-  public float time = 180f;
-  private float timer;
-
-  void Awake ()
-  {
-    timer = time;
-  }
-
   void Update ()
   {
+    base.Update();
     AddScoreToOwner ();
-    timer -= Time.deltaTime;
-    if (timeLabel)
-      timeLabel.text = "" + Mathf.RoundToInt (timer);
-    if (timer <= 0f) {
-      End ();
-    }
   }
 
   void AddScoreToOwner ()
@@ -32,13 +19,6 @@ public class LastManMatch : MatchController
         pc.SetScore (0);
       }
     }
-  }
-
-  public void Reset (float t)
-  {
-    time = t;
-    timer = t;
-    ResetScore (0f);
   }
 
 }

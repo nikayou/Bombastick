@@ -10,13 +10,33 @@ public class MatchController : MonoBehaviour
   
   protected List<PlayerController> players;
   public Text timeLabel;
+  public float time;
+  private float timer;
 
-  protected virtual void Start ()
+  protected virtual void Awake ()
   {
+    timer = time;
     players = new List<PlayerController> ();
     foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player")) {
       players.Add (p.GetComponent<PlayerController> ());
     }    
+  }
+
+  protected virtual void Update () 
+  {
+    timer -= Time.deltaTime;
+    if (timeLabel)
+      timeLabel.text = "" + Mathf.RoundToInt (timer);
+    if (timer <= 0f) {
+      End ();
+    } 
+  }
+
+  public void Reset (float t)
+  {
+    time = t;
+    timer = t;
+    ResetScore (0f);
   }
 
   public void AddPlayer (PlayerController pc) {
@@ -31,7 +51,7 @@ public class MatchController : MonoBehaviour
     players [index].AddScore (amount);
   }
 
-  public void ResetScore (float value = 0f)
+  public virtual void ResetScore (float value = 0f)
   {
     foreach (PlayerController pc in players) {
       pc.SetScore (value);

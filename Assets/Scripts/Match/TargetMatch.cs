@@ -6,9 +6,8 @@ public class TargetMatch : MatchController
 
   public float targetTime = 15f;
 
-  protected override void Start ()
+  void Start ()
   {
-    base.Start ();
     foreach (PlayerController pc in players) {
       pc.AddScore (targetTime);
     }    
@@ -16,7 +15,14 @@ public class TargetMatch : MatchController
       timeLabel.text = ""+targetTime;
   }
 
-  void Update ()
+  override public void ResetScore (float value)
+  {
+    foreach (PlayerController pc in players) {
+      pc.SetScore (targetTime);
+    }
+  }
+
+  protected override void Update ()
   {
     int l = players.Count;
     for (int i = 0; i < l; i++) {
@@ -26,14 +32,6 @@ public class TargetMatch : MatchController
         }
       }
     }
-  }
-
-  public void Reset (float t)
-  {
-    targetTime = t;
-    if (timeLabel)
-      timeLabel.text = ""+targetTime;
-    ResetScore (t);
   }
 
 }

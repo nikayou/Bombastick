@@ -11,8 +11,10 @@ public class MatchLauncher : MonoBehaviour
   public GameObject playerPrefab;
   public Respawner respawner;
   public Transform uiCanvas;
+  public GameObject star;
   public float playerScale = 0.75f;
   private Vector3[] spawnPoint;
+  public MatchType defaultType = MatchType.TIMED;
 
   void Start ()
   {
@@ -20,17 +22,18 @@ public class MatchLauncher : MonoBehaviour
     matchSettingsHolder = GameObject.FindGameObjectWithTag ("GameController");
     if (matchSettingsHolder != null) {
       MatchSettings matchSettings = matchSettingsHolder.GetComponent<MatchSettings> (); 
+      defaultType = matchSettings.matchType;
       SetMatch (matchSettings.matchType, matchSettings.duration);
       LoadMap (matchSettings.levelName);
       SetPlayers (matchSettings.playersColors);
     } else {
-      SetMatch (MatchType.TIMED, 180f);
+      SetMatch (defaultType, 180f);
       LoadMap ("classic1.xml"); //TODO: load default map
       SetPlayers (new Color[] {
-        new Color (1, 0, 0, 1),
-        new Color (0, 1, 0, 1),
-        new Color (1, 0, 0, 0),
-        new Color (1, 0, 0, 0)
+        new Color (1, 1, 0, 1),
+        new Color (0, 1, 1, 1),
+        new Color (1, 0, 1, 1),
+        new Color (0.5f, 0.5f, 0.5f, 1f)
       });
     }
     Destroy (matchSettingsHolder);
@@ -42,39 +45,34 @@ public class MatchLauncher : MonoBehaviour
     GameObject matchPanel = uiCanvas.FindChild("MatchPanel").gameObject;
     Text modeText = matchPanel.transform.FindChild("TypeText").GetComponent<Text>();
     Text timeText = matchPanel.transform.FindChild("TimeText").GetComponent<Text>();
-    if (matchType != MatchType.TIMED) {
+   if (matchType != MatchType.TIMED) {
       Destroy (matchController.GetComponent<TimedMatch> ());
     } else {
       modeText.text = "Best time match";
-      TimedMatch tm = matchController.GetComponent<TimedMatch> ();
-      tm.Reset (duration);
-      tm.timeLabel = timeText;
-      control = tm;
+      control = matchController.GetComponent<TimedMatch> ();
     }
     if (matchType != MatchType.TARGET) {
       Destroy (matchController.GetComponent<TargetMatch> ());
     } else {
       modeText.text = "Target time match";
       control = matchController.GetComponent<TargetMatch> ();
-      control.timeLabel = timeText;
-      ((TimedMatch)control).Reset (duration);
     }
     if (matchType != MatchType.LAST_MAN) {
       Destroy (matchController.GetComponent<LastManMatch> ());
     } else {
       modeText.text = "Last man keeping";
       control = matchController.GetComponent<LastManMatch> ();
-      control.timeLabel = timeText;
-      ((LastManMatch)control).Reset (duration);
     }
     if (matchType != MatchType.DEATH) {
       Destroy (matchController.GetComponent<DeathMatch> ());
     } else {
       modeText.text = "DeathMatch";
       control = matchController.GetComponent<DeathMatch> ();
-      control.timeLabel = timeText;
-      ((DeathMatch)control).Reset (duration);
+      Destroy (star);
     }
+    control.timeLabel = timeText;
+    control.enabled = true;
+    control.Reset (duration);
   }
 
   void LoadMap (string name)
@@ -145,7 +143,9 @@ public class MatchLauncher : MonoBehaviour
         respawner.AddPlayer (p.transform, i);
         p.GetComponent<DropBomb>().level = level.transform;
         GameObject uiPanel = uiCanvas.Find("PlayerPanel"+j).gameObject;
-        uiPanel.GetComponent<MatchPlayerUI>().player = pc;
+        MatchPlayerUI playerui = uiPanel.GetComponent<MatchPlayerUI>();
+        playerui.player = pc;
+        playerui.mode = defaultType;
         uiPanel.GetComponent<Image>().color = pc.color;
         control.AddPlayer(pc);
       }
