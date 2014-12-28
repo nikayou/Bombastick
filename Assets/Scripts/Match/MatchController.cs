@@ -61,30 +61,27 @@ public class MatchController : MonoBehaviour
   protected virtual void End ()
   {
     EndMatch endMatch = GetComponent<EndMatch> ();
-    endMatch.enabled = true;
     endMatch.SetWinner (GetWinner ());
+    endMatch.enabled = true;
     Destroy (this);
   }
 
   int GetWinner ()
   {
-    int winner = 1;
+    int winner = -1;
     bool draw = true;
-    bool madeOne = false;
+    float winnerScore = -1;
     foreach (PlayerController pc in players) {
-      float winnerScore = players [winner - 1].GetScore ();
       if (pc.GetScore () > winnerScore) {
         draw = false;
         winner = pc.GetID ();
-      } else if (madeOne && pc.GetScore () == winnerScore) {
+        winnerScore = pc.GetScore();
+      } else if (pc.GetScore () == winnerScore) {
         draw = true;
-      }
-      if (!madeOne) {
-        madeOne = true;
       }
     }
     if (draw) {
-      return 0;
+      return -1;
     } else {
       return winner;
     }

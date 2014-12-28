@@ -15,6 +15,7 @@ public class MatchLauncher : MonoBehaviour
   public float playerScale = 0.75f;
   private Vector3[] spawnPoint;
   public MatchType defaultType = MatchType.TIMED;
+  public float defaultDuration = 180f;
 
   void Start ()
   {
@@ -27,7 +28,7 @@ public class MatchLauncher : MonoBehaviour
       LoadMap (matchSettings.levelName);
       SetPlayers (matchSettings.playersColors);
     } else {
-      SetMatch (defaultType, 180f);
+      SetMatch (defaultType, defaultDuration);
       LoadMap ("classic1.xml"); //TODO: load default map
       SetPlayers (new Color[] {
         new Color (1, 1, 0, 1),

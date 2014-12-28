@@ -1,27 +1,37 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
-public class EndMatch : MatchController
+public class EndMatch : MonoBehaviour
 {
 
-  float w = Screen.width / 2f;
-  float h = Screen.height / 2f;
-  int winner = 0;
+  public float resultTime = 3.0f;
+  private float timer = 0f;
+  public Text winnerText;
+  public GameObject resultPanel;
 
-  void OnGUI ()
+  void Start ()
   {
-    string msg;
-    if (winner == 0) {
-      msg = "Draw";
+    resultPanel.SetActive(true);
+    timer = resultTime;
+  }
+
+  void Update ()
+  {
+    if (timer <= 0f) {
+      if (Input.anyKey) {
+        Application.LoadLevel (0);
+      } 
     } else {
-      msg = "Player " + winner + " wins!";
+      timer -= Time.deltaTime;
     }
-    GUI.Box (GUIUtils.CenteredNormal (0, 0, w, h), msg);
   }
 
   public void SetWinner (int index)
   {
-    winner = index;
+    if (index != -1) {
+      winnerText.text = "Player "+(index)+" wins!";
+    }
   }
 
 }
