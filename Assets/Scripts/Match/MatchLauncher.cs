@@ -2,6 +2,8 @@
 using UnityEngine.UI;
 using System.Collections;
 
+[RequireComponent (typeof(AudioSource))]
+
 public class MatchLauncher : MonoBehaviour
 {
 
@@ -12,6 +14,11 @@ public class MatchLauncher : MonoBehaviour
   public Respawner respawner;
   public Transform uiCanvas;
   public GameObject star;
+  public float timeBeforeStarting = 2.0f;
+  private float timer;
+  public AudioClip startingSound;
+  public GameObject startingPanel;
+  public Text startingText;
   public float playerScale = 0.75f;
   private Vector3[] spawnPoint;
   public MatchType defaultType = MatchType.TIMED;
@@ -37,8 +44,8 @@ public class MatchLauncher : MonoBehaviour
         new Color (0.5f, 0.5f, 0.5f, 1f)
       });
     }
+    timer = timeBeforeStarting;
     Destroy (matchSettingsHolder);
-    Destroy (this);
   }
 
   void SetMatch (MatchType matchType, float duration)
@@ -74,6 +81,19 @@ public class MatchLauncher : MonoBehaviour
     control.timeLabel = timeText;
     control.enabled = true;
     control.Reset (duration);
+  }
+
+  void Update () {
+    if (timer <= 0f) {
+      control.started = true;
+      Destroy (startingPanel);
+      audio.PlayOneShot(startingSound);
+      Destroy (this);
+    } else {
+      timer -= Time.deltaTime;
+      startingText.text = ""+(Mathf.Round(timer)+1);
+    }
+
   }
 
   void LoadMap (string name)
@@ -142,7 +162,9 @@ public class MatchLauncher : MonoBehaviour
         }
         p.GetComponent<Respawn>().respawner = respawner;
         respawner.AddPlayer (p.transform, i);
-        p.GetComponent<DropBomb>().level = level.transform;
+        DropBomb db = p.GetComponent<DropBomb>();
+        db.level = level.transform;
+        StartCoroutine(UnlockPlayerBombing(db, timeBeforeStarting));
         GameObject uiPanel = uiCanvas.Find("PlayerPanel"+j).gameObject;
         MatchPlayerUI playerui = uiPanel.GetComponent<MatchPlayerUI>();
         playerui.player = pc;
@@ -151,6 +173,15 @@ public class MatchLauncher : MonoBehaviour
         control.AddPlayer(pc);
       }
     }
+  }
+
+  IEnumerator UnlockPlayerBombing (DropBomb db, float time) {
+    float timer = time;
+    while (timer > 0f) {
+      timer -= Time.deltaTime;
+      yield return null;
+    }
+    db.enabled = true;
   }
 
  

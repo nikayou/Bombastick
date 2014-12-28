@@ -12,24 +12,26 @@ public class MatchController : MonoBehaviour
   public Text timeLabel;
   public float time;
   private float timer;
+  public bool started = false;
 
   protected virtual void Awake ()
   {
-    timer = time;
     players = new List<PlayerController> ();
     foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player")) {
       players.Add (p.GetComponent<PlayerController> ());
     }    
   }
 
-  protected virtual void Update () 
+  protected virtual void Update ()
   {
-    timer -= Time.deltaTime;
-    if (timeLabel)
-      timeLabel.text = "" + Mathf.RoundToInt (timer);
-    if (timer <= 0f) {
-      End ();
-    } 
+    if (started) {
+      timer -= Time.deltaTime;
+      if (timeLabel)
+        timeLabel.text = "" + Mathf.RoundToInt (timer);
+      if (timer <= 0f) {
+        End ();
+      }
+    }
   }
 
   public void Reset (float t)
@@ -39,7 +41,8 @@ public class MatchController : MonoBehaviour
     ResetScore (0f);
   }
 
-  public void AddPlayer (PlayerController pc) {
+  public void AddPlayer (PlayerController pc)
+  {
     players.Add (pc);
   }
 
@@ -75,7 +78,7 @@ public class MatchController : MonoBehaviour
       if (pc.GetScore () > winnerScore) {
         draw = false;
         winner = pc.GetID ();
-        winnerScore = pc.GetScore();
+        winnerScore = pc.GetScore ();
       } else if (pc.GetScore () == winnerScore) {
         draw = true;
       }
