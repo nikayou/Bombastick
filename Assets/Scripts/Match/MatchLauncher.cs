@@ -131,6 +131,16 @@ public class MatchLauncher : MonoBehaviour
         pc.color = colors [i];
         p.transform.localPosition = spawnPoint [i];
         p.transform.localScale = Vector3.one * playerScale;
+        switch(i) {
+        case 0: p.transform.Rotate(0, 0, 45f);
+          break;
+        case 1: p.transform.Rotate(0f, 0f, -135f);
+          break;
+        case 2: p.transform.Rotate(0f, 0f, -45f);
+          break;
+        case 3: p.transform.Rotate(0f, 0f, 135f);
+          break;
+        }
         p.GetComponent<Respawn>().respawner = respawner;
         respawner.AddPlayer (p.transform, i);
         p.GetComponent<DropBomb>().level = level.transform;
