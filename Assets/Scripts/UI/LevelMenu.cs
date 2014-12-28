@@ -22,12 +22,12 @@ public class LevelMenu : MonoBehaviour
   {
     maps = LoadMapsFromDirectory ("Levels/");
     if (maps.Count <= 0) {
-      // TODO: no level can be found: loading default map
-      Debug.Log ("No level to load");
+      Debug.LogWarning ("No level to load");
+      index = -1;
     } else {
       DisplayMap ();
+      index = 0;
     }
-    index = 0;
   }
 
   void OnEnable ()
@@ -65,20 +65,23 @@ public class LevelMenu : MonoBehaviour
   public void PreviousMap ()
   {
     index--;
-    if (index < 0)
-    if (maps.Count > 0)
-      index = maps.Count - 1;
-    else
-      index = 0;
+    if (index < 0) {
+      if (maps.Count > 0)
+        index = maps.Count - 1;
+      else
+        index = 0;
+    }
     DisplayMap ();
   }
 
   public void NextMap ()
   {
-    index++;
-    if (index >= maps.Count)
-      index = 0;
-    DisplayMap ();
+    if (index != -1) {
+      index++;
+      if (index >= maps.Count)
+        index = 0;
+      DisplayMap ();
+    }
   }
 
   public void DisplayMap ()
@@ -90,7 +93,11 @@ public class LevelMenu : MonoBehaviour
 
   public void LaunchMatch ()
   {
-    Application.LoadLevel (1);
+    if (index == -1) {
+      print ("No level could be found in directory Levels");
+    } else {
+      Application.LoadLevel (1);
+    }
   }
 
   public void SyncDataWithController ()

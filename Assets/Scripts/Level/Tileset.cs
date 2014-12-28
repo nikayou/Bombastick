@@ -58,8 +58,6 @@ public class Tileset
 
   public void LoadFromXML (string path)
   {
-    // TODO: check errors with asserts
-    Debug.Log ("loading tileset " + path);
     XmlTextReader xtr = new XmlTextReader (path);    
     while (xtr.Read()) { 
       if (xtr.Name == "TILESET") {
@@ -80,8 +78,8 @@ public class Tileset
         bool destructable = false, blocking = false;
         string tileIndex = string.Empty;
         if ((tileIndex = xtr.GetAttribute ("index")) == null) {
-          // TODO: extraction error
-          continue;
+          Debug.LogError("Missing index for tile in file "+path);
+          break;
         }
         if ((_destructable = xtr.GetAttribute ("destructable")) != null) {
           destructable = bool.Parse (_destructable);

@@ -32,11 +32,11 @@ public class MatchLauncher : MonoBehaviour
       MatchSettings matchSettings = matchSettingsHolder.GetComponent<MatchSettings> (); 
       defaultType = matchSettings.matchType;
       SetMatch (matchSettings.matchType, matchSettings.duration);
-      LoadMap (matchSettings.levelName);
+      LoadNamedMap (matchSettings.levelName);
       SetPlayers (matchSettings.playersColors);
     } else {
       SetMatch (defaultType, defaultDuration);
-      LoadMap ("classic1.xml"); //TODO: load default map
+      LoadNamedMap ("classic1.xml");
       SetPlayers (new Color[] {
         new Color (1, 1, 0, 1),
         new Color (0, 1, 1, 1),
@@ -96,10 +96,14 @@ public class MatchLauncher : MonoBehaviour
 
   }
 
-  void LoadMap (string name)
+  void LoadNamedMap (string name)
   {
     Tilemap tilemap = new Tilemap (WWW.EscapeURL ("Levels/" + name));
     Tileset tileset = new Tileset (WWW.EscapeURL ("Levels/Tilesets/" + tilemap.GetTileset ()));
+    LoadMap (tilemap, tileset);
+  }
+
+    void LoadMap (Tilemap tilemap, Tileset tileset) {
     // computing spawn points
     float w = tilemap.GetWidth () - 1f; // w*(s/2) is the same as (w*s)/2
     float h = tilemap.GetHeight ();

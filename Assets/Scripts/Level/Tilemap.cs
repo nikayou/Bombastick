@@ -9,7 +9,7 @@ public class Tilemap
   private int[] layers;
   private int nbLayers;
   private int width;
-  private int height; //TODO: check if required to keep it
+  private int height;
   private int nbPerLayer;
   private string tilesetPath;
 
