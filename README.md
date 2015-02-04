@@ -14,7 +14,7 @@ It is currently under developpement.
 ## How to play
 
 Players can move in 4 directions and drop a bomb.  
-![no screenshot yet](https://lasconik/github.io/img/screenshots/bombastick1.png)  
+![no screenshot yet](http://lasconik.github.io/img/screenshots/bombastick1.png)  
 Bombs can break some blocks, and kill players. When a player dies, he
 respawns at the most distant point of the action.  
 When present, the flag can be picked up simply by moving over it. When killed,
